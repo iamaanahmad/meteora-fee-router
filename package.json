@@ -1,0 +1,89 @@
+{
+  "name": "meteora-fee-router",
+  "version": "1.0.0",
+  "description": "Production-grade Solana program for automated fee distribution with quote-only accrual",
+  "main": "index.js",
+  "scripts": {
+    "build": "anchor build",
+    "test": "anchor test",
+    "test:unit": "cargo test --manifest-path programs/meteora-fee-router/Cargo.toml",
+    "test:integration": "anchor test tests/",
+    "test:all": "npm run test:unit && npm run test:integration",
+    "deploy:devnet": "./deployment/deploy.sh devnet",
+    "deploy:mainnet": "./deployment/deploy.sh mainnet-beta",
+    "validate": "node deployment/validate-deployment.js",
+    "optimize": "./deployment/optimize-build.sh",
+    "clean": "anchor clean && rm -rf node_modules target",
+    "lint": "eslint . --ext .ts,.js",
+    "format": "prettier --write .",
+    "docs": "typedoc --out docs/api src/",
+    "package": "node scripts/package-deliverables.js"
+  },
+  "keywords": [
+    "solana",
+    "anchor",
+    "defi",
+    "meteora",
+    "bounty",
+    "fee-distribution",
+    "streamflow",
+    "damm-v2",
+    "rust",
+    "typescript",
+    "blockchain",
+    "cryptocurrency"
+  ],
+  "author": {
+    "name": "Meteora Fee Router Team",
+    "email": "contact@example.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iamaanahmad/meteora-fee-router.git"
+  },
+  "bugs": {
+    "url": "https://github.com/iamaanahmad/meteora-fee-router/issues"
+  },
+  "homepage": "https://github.com/iamaanahmad/meteora-fee-router#readme",
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "dependencies": {
+    "@coral-xyz/anchor": "^0.29.0",
+    "@solana/web3.js": "^1.87.6",
+    "@solana/spl-token": "^0.3.9",
+    "bn.js": "^5.2.1"
+  },
+  "devDependencies": {
+    "@types/bn.js": "^5.1.1",
+    "@types/chai": "^4.3.0",
+    "@types/mocha": "^9.1.0",
+    "@types/node": "^18.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.57.0",
+    "@typescript-eslint/parser": "^5.57.0",
+    "chai": "^4.3.0",
+    "eslint": "^8.37.0",
+    "mocha": "^9.2.0",
+    "prettier": "^2.8.7",
+    "ts-mocha": "^10.0.0",
+    "ts-node": "^10.9.0",
+    "typedoc": "^0.24.0",
+    "typescript": "^4.9.0"
+  },
+  "peerDependencies": {
+    "@coral-xyz/anchor": "^0.29.0"
+  },
+  "funding": {
+    "type": "bounty",
+    "url": "https://superteam.fun/"
+  },
+  "bounty": {
+    "name": "Star at Superteam Earn",
+    "category": "DeFi Infrastructure - Meteora DAMM V2 Fee Routing",
+    "submission_date": "2025-10-01",
+    "team": "Meteora Fee Router Team",
+    "sponsor": "Star"
+  }
+}

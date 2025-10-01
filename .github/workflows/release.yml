@@ -1,0 +1,197 @@
+name: 🚀 Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  create-release:
+    name: 🏷️ Create Release
+    runs-on: ubuntu-latest
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+      
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+
+    - name: 🏷️ Get tag version
+      id: tag_version
+      run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+    - name: 📋 Generate changelog
+      id: changelog
+      run: |
+        # Extract changelog for this version
+        awk '/^## \[${{ steps.tag_version.outputs.VERSION }}\]/{flag=1; next} /^## \[/{flag=0} flag' CHANGELOG.md > release_notes.md
+
+    - name: 🚀 Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ steps.tag_version.outputs.VERSION }}
+        release_name: Release ${{ steps.tag_version.outputs.VERSION }}
+        body_path: release_notes.md
+        draft: false
+        prerelease: ${{ contains(steps.tag_version.outputs.VERSION, '-') }}
+
+  build-and-upload:
+    name: 🔨 Build & Upload Assets
+    needs: create-release
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+
+    - name: 📦 Cache dependencies
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.cargo/bin/
+          ~/.cargo/registry/index/
+          ~/.cargo/registry/cache/
+          ~/.cargo/git/db/
+          target/
+        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+    - name: 🦀 Setup Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        profile: minimal
+        toolchain: stable
+        override: true
+
+    - name: 📦 Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+
+    - name: ⚙️ Setup Solana CLI
+      run: |
+        sh -c "$(curl -sSfL https://release.solana.com/v1.16.0/install)"
+        echo "$HOME/.local/share/solana/install/active_release/bin" >> $GITHUB_PATH
+
+    - name: ⚙️ Setup Anchor CLI
+      run: |
+        cargo install --git https://github.com/coral-xyz/anchor avm --locked --force
+        avm install latest
+        avm use latest
+
+    - name: 📦 Install dependencies
+      run: npm install
+
+    - name: 🔧 Build program
+      run: anchor build
+
+    - name: 🧪 Run tests
+      run: |
+        cargo test --verbose
+        npm run test:all
+
+    - name: 📦 Package artifacts
+      run: |
+        mkdir -p release-artifacts
+        
+        # Copy program binary
+        cp target/deploy/*.so release-artifacts/
+        
+        # Copy IDL
+        cp target/idl/*.json release-artifacts/
+        
+        # Copy TypeScript types
+        cp target/types/*.ts release-artifacts/
+        
+        # Create tarball
+        tar -czf meteora-fee-router-artifacts.tar.gz -C release-artifacts .
+
+    - name: 📤 Upload Release Assets
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ needs.create-release.outputs.upload_url }}
+        asset_path: ./meteora-fee-router-artifacts.tar.gz
+        asset_name: meteora-fee-router-artifacts.tar.gz
+        asset_content_type: application/gzip
+
+    - name: 📤 Upload Program Binary
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ needs.create-release.outputs.upload_url }}
+        asset_path: ./target/deploy/meteora_fee_router.so
+        asset_name: meteora_fee_router.so
+        asset_content_type: application/octet-stream
+
+  publish-npm:
+    name: 📦 Publish to NPM
+    needs: create-release
+    runs-on: ubuntu-latest
+    if: ${{ !contains(github.ref, '-') }}  # Only for non-prerelease versions
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+
+    - name: 📦 Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        registry-url: 'https://registry.npmjs.org'
+
+    - name: 📦 Install dependencies
+      run: npm install
+
+    - name: ⚙️ Setup Solana CLI
+      run: |
+        sh -c "$(curl -sSfL https://release.solana.com/v1.16.0/install)"
+        echo "$HOME/.local/share/solana/install/active_release/bin" >> $GITHUB_PATH
+
+    - name: ⚙️ Setup Anchor CLI
+      run: |
+        cargo install --git https://github.com/coral-xyz/anchor avm --locked --force
+        avm install latest
+        avm use latest
+
+    - name: 🔧 Build program
+      run: anchor build
+
+    - name: 📦 Publish to NPM
+      run: npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      # Note: Requires NPM_TOKEN secret to be configured
+
+  update-documentation:
+    name: 📚 Update Documentation
+    needs: create-release
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+
+    - name: 📚 Deploy Documentation
+      # Add your documentation deployment step here
+      run: echo "Documentation deployment would go here"
+
+  notify:
+    name: 📢 Notify Release
+    needs: [create-release, build-and-upload]
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📢 Notify Success
+      run: |
+        echo "🎉 Release ${{ github.ref }} has been successfully created!"
+        echo "🔗 Check the GitHub releases page for details"

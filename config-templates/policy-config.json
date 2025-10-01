@@ -1,0 +1,9 @@
+{
+  "vault": "VAULT_PUBKEY_HERE",
+  "quote_mint": "QUOTE_MINT_PUBKEY_HERE",
+  "creator_wallet": "CREATOR_WALLET_PUBKEY_HERE",
+  "investor_fee_share_bps": 7500,
+  "daily_cap_lamports": null,
+  "min_payout_lamports": 1000,
+  "y0_total_allocation": 1000000000000
+}

@@ -1,0 +1,35 @@
+{
+  "name": "meteora-fee-router",
+  "version": "0.1.0",
+  "description": "Meteora Fee Router - Honorary DAMM V2 LP position fee distribution system",
+  "main": "index.js",
+  "scripts": {
+    "build": "anchor build",
+    "test": "anchor test",
+    "test:comprehensive": "anchor test --run tests/comprehensive-integration.test.ts",
+    "test:streamflow": "anchor test --run tests/streamflow-integration.test.ts",
+    "test:performance": "anchor test --run tests/performance-compute.test.ts",
+    "test:failures": "anchor test --run tests/failure-edge-cases.test.ts",
+    "test:pagination": "anchor test --run tests/pagination-resumption.test.ts",
+    "test:init": "anchor test --run tests/initialize-honorary-position.test.ts",
+    "test:fees": "anchor test --run tests/fee-claiming.test.ts",
+    "deploy": "anchor deploy"
+  },
+  "keywords": [
+    "solana",
+    "anchor",
+    "meteora",
+    "damm",
+    "fee-distribution"
+  ],
+  "author": "Star Platform",
+  "license": "MIT",
+  "devDependencies": {
+    "@coral-xyz/anchor": "^0.29.0",
+    "@solana/web3.js": "^1.87.6",
+    "@types/mocha": "^9.0.0",
+    "mocha": "^9.0.3",
+    "ts-mocha": "^10.0.0",
+    "typescript": "^4.3.5"
+  }
+}

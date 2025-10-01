@@ -1,0 +1,20 @@
+{
+  "network": {
+    "cluster": "devnet",
+    "rpc_url": "https://api.devnet.solana.com",
+    "commitment": "confirmed"
+  },
+  "program": {
+    "program_id": "PROGRAM_ID_WILL_BE_SET_AFTER_DEPLOYMENT",
+    "keypair_path": "./target/deploy/meteora_fee_router-keypair.json"
+  },
+  "accounts": {
+    "payer": "~/.config/solana/id.json",
+    "authority": "~/.config/solana/id.json"
+  },
+  "validation": {
+    "verify_deployment": true,
+    "run_integration_tests": true,
+    "check_compute_budget": true
+  }
+}
