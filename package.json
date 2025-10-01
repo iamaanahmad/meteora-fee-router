@@ -2,7 +2,17 @@
   "name": "@ashqking/meteora-fee-router",
   "version": "1.0.0",
   "description": "Production-grade Solana program for automated fee distribution with quote-only accrual",
-  "main": "index.js",
+  "main": "README.md",
+  "files": [
+    "README.md",
+    "LICENSE",
+    "BOUNTY_SUBMISSION.md",
+    "docs/",
+    "programs/meteora-fee-router/src/",
+    "programs/meteora-fee-router/Cargo.toml",
+    "Anchor.toml",
+    "package.json"
+  ],
   "scripts": {
     "build": "anchor build",
     "test": "anchor test",
@@ -18,8 +28,7 @@
     "format": "prettier --write .",
     "docs": "typedoc --out docs/api src/",
     "package": "node scripts/package-deliverables.js",
-    "publish:npm": "npm publish --access public",
-    "prepublishOnly": "npm run build && npm run test:unit"
+    "publish:npm": "npm publish --access public"
   },
   "keywords": [
     "solana",
