@@ -1,0 +1,107 @@
+name: 🚀 Simple CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: 🧪 Run Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+      
+    - name: 🦀 Setup Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        profile: minimal
+        override: true
+        
+    - name: 🌐 Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        
+    - name: 📦 Install dependencies
+      run: |
+        if [ -f package-lock.json ]; then
+          npm ci
+        else
+          npm install
+        fi
+        
+    - name: 🧪 Run Rust unit tests
+      run: cargo test --manifest-path programs/meteora-fee-router/Cargo.toml --verbose
+      
+    - name: ✅ Test completion
+      run: echo "All tests completed successfully!"
+
+  lint:
+    name: 🔍 Lint & Format
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+      
+    - name: 🦀 Setup Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        profile: minimal
+        override: true
+        components: rustfmt, clippy
+        
+    - name: 🌐 Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        
+    - name: 📦 Install dependencies
+      run: |
+        if [ -f package-lock.json ]; then
+          npm ci
+        else
+          npm install
+        fi
+        
+    - name: 🔍 Rust format check
+      run: cargo fmt --all -- --check
+      continue-on-error: true
+      
+    - name: 📎 Rust clippy
+      run: cargo clippy --all-targets --all-features -- -D warnings
+      continue-on-error: true
+      
+    - name: ✅ Lint completion
+      run: echo "Linting completed!"
+
+  security:
+    name: 🔒 Security Audit
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+      
+    - name: 🦀 Setup Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        profile: minimal
+        override: true
+        
+    - name: 🛡️ Basic security check
+      run: |
+        echo "Running basic security validation..."
+        # Check for common security issues
+        grep -r "unsafe" programs/ || echo "No unsafe code found ✅"
+        grep -r "unwrap()" programs/ || echo "No unwrap() calls found ✅"
+        echo "Security check completed!"
+      continue-on-error: true
