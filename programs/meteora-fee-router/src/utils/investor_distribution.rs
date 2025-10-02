@@ -262,7 +262,7 @@ impl InvestorDistribution {
     }
     
     /// Get or derive investor's ATA address
-    fn get_or_derive_investor_ata(
+    pub fn get_or_derive_investor_ata(
         investor_wallet: &Pubkey,
         mint: &Pubkey,
     ) -> Result<(Pubkey, bool)> {

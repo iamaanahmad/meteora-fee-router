@@ -1,221 +1,206 @@
-# Streamflow Integration Module
-
-This document describes the Streamflow integration module for the Meteora Fee Router program.
+# Streamflow Integration Implementation
 
 ## Overview
 
-The Streamflow integration module provides functionality to:
-- Read and validate Streamflow vesting accounts
-- Calculate locked token amounts based on vesting schedules
-- Aggregate investor data for fee distribution calculations
-- Handle edge cases and error conditions
+This document details the implementation of Streamflow integration for the Meteora Fee Router, enabling dynamic fee distribution based on real-time vesting schedules.
 
-## Core Components
+## Core Integration Components
 
-### StreamflowStream Structure
-
-Represents a Streamflow vesting stream with all necessary fields for locked amount calculations:
+### 1. Streamflow Data Structures
 
 ```rust
+#[derive(Debug, Clone)]
 pub struct StreamflowStream {
-    pub recipient: Pubkey,        // Investor wallet
-    pub mint: Pubkey,            // Token mint
-    pub deposited_amount: u64,   // Total tokens deposited
-    pub withdrawn_amount: u64,   // Tokens already withdrawn
-    pub start_time: i64,         // Vesting start timestamp
-    pub end_time: i64,           // Vesting end timestamp
-    pub cliff_time: i64,         // Cliff timestamp
-    pub closed_at: Option<i64>,  // Stream closure timestamp
-    // ... other fields
+    pub mint: Pubkey,
+    pub deposited_amount: u64,
+    pub withdrawn_amount: u64,
+    pub start_time: u64,
+    pub end_time: u64,
+    pub cliff_time: u64,
+    pub cliff_amount: u64,
+    pub canceled_at: Option<u64>,
+    pub closed_at: Option<u64>,
 }
 ```
 
-### StreamflowIntegration Utilities
+### 2. Locked Amount Calculation
 
-Main utility struct providing static methods for Streamflow operations:
-
-#### Key Methods
-
-1. **`calculate_locked_amount(stream, timestamp)`**
-   - Calculates still-locked tokens for a stream at given timestamp
-   - Handles linear vesting, cliff periods, and withdrawals
-   - Returns 0 for closed or fully vested streams
-
-2. **`validate_and_parse_stream(account_info, expected_mint)`**
-   - Validates Streamflow account data and ownership
-   - Parses account data into StreamflowStream structure
-   - Validates mint matches expected token
-
-3. **`aggregate_investor_data(stream_accounts, mint, timestamp)`**
-   - Aggregates multiple streams per investor
-   - Returns Vec<InvestorData> with total locked amounts per investor
-   - Handles deduplication by recipient wallet
-
-4. **`calculate_total_locked(stream_accounts, mint, timestamp)`**
-   - Calculates total locked amount across all streams
-   - Used for distribution percentage calculations
-
-## Usage in Distribution Flow
-
-### 1. Validation Phase
+The core algorithm for calculating locked amounts:
 
 ```rust
-// Validate all Streamflow accounts before processing
-StreamflowIntegration::validate_all_streams_mint(&stream_accounts, &expected_mint)?;
+pub fn calculate_locked_amount(
+    stream: &StreamflowStream,
+    current_timestamp: u64,
+) -> Result<u64> {
+    // Handle closed/canceled streams
+    if stream.closed_at.is_some() || stream.canceled_at.is_some() {
+        return Ok(0);
+    }
 
-// Check minimum investor requirements
-let investor_count = StreamflowIntegration::get_unique_investor_count(&stream_accounts, &expected_mint)?;
-require!(investor_count >= MIN_INVESTORS, ErrorCode::InsufficientInvestors);
+    let available_amount = stream.deposited_amount
+        .checked_sub(stream.withdrawn_amount)
+        .ok_or(ErrorCode::ArithmeticOverflow)?;
+
+    // Before start time - fully locked
+    if current_timestamp < stream.start_time {
+        return Ok(available_amount);
+    }
+
+    // After end time - fully unlocked
+    if current_timestamp >= stream.end_time {
+        return Ok(0);
+    }
+
+    // During cliff period
+    if current_timestamp < stream.cliff_time {
+        return Ok(available_amount);
+    }
+
+    // Linear vesting calculation
+    let vesting_duration = stream.end_time - stream.cliff_time;
+    let elapsed_since_cliff = current_timestamp - stream.cliff_time;
+    
+    let vested_amount = (available_amount as u128)
+        .checked_mul(elapsed_since_cliff as u128)
+        .ok_or(ErrorCode::ArithmeticOverflow)?
+        .checked_div(vesting_duration as u128)
+        .ok_or(ErrorCode::ArithmeticOverflow)? as u64;
+
+    available_amount
+        .checked_sub(vested_amount)
+        .ok_or(ErrorCode::ArithmeticOverflow.into())
+}
 ```
 
-### 2. Distribution Calculation
+### 3. Multi-Stream Processing
 
 ```rust
-let current_timestamp = StreamflowIntegration::get_current_timestamp()?;
+pub fn process_investor_streams(
+    investor_streams: &[AccountInfo],
+    expected_mint: &Pubkey,
+    current_timestamp: u64,
+) -> Result<(u32, u64)> {
+    let mut processed_count = 0;
+    let mut total_locked = 0;
 
-// Calculate total locked for distribution percentage
-let total_locked = StreamflowIntegration::calculate_total_locked(
-    &stream_accounts,
-    &policy_config.quote_mint,
-    current_timestamp,
-)?;
+    for stream_account in investor_streams {
+        let stream = Self::validate_and_parse_stream(stream_account, expected_mint)?;
+        let locked_amount = Self::calculate_locked_amount(&stream, current_timestamp)?;
+        
+        total_locked = total_locked
+            .checked_add(locked_amount)
+            .ok_or(ErrorCode::ArithmeticOverflow)?;
+        
+        processed_count += 1;
+    }
 
-// Calculate investor vs creator split
-let (investor_amount, creator_amount) = calculate_distribution(
-    claimed_quote_fees,
-    total_locked,
-    policy_config.y0_total_allocation,
+    Ok((processed_count, total_locked))
+}
+```
+
+## Integration Points
+
+### 1. Distribution Calculation Integration
+
+The Streamflow integration feeds into the main distribution calculation:
+
+```rust
+// In distribute_fees instruction
+let (processed_count, page_locked_total, investor_payouts) = 
+    StreamflowIntegration::process_investor_streams(
+        &investor_streams,
+        &policy_config.quote_mint,
+        current_timestamp,
+    )?;
+
+// Use locked amounts for distribution calculation
+let (total_investor_amount, creator_amount) = calculate_distribution(
+    claimed_quote,
+    page_locked_total,
+    policy_config.total_allocation,
     policy_config.investor_fee_share_bps,
 )?;
 ```
 
-### 3. Paginated Processing
+### 2. Validation and Error Handling
 
 ```rust
-// Process investors in pages to manage compute budget
-let (processed_count, page_locked_total, investor_payouts) = 
-    StreamflowIntegration::process_investor_page(
-        &page_accounts,
-        &policy_config.quote_mint,
-        current_timestamp,
-        page_start,
-        page_size,
-    )?;
+fn validate_and_parse_stream(
+    stream_account: &AccountInfo,
+    expected_mint: &Pubkey,
+) -> Result<StreamflowStream> {
+    // Validate account ownership
+    if stream_account.owner != &STREAMFLOW_PROGRAM_ID {
+        return Err(ErrorCode::InvalidStreamflowAccount.into());
+    }
 
-// Calculate individual payouts based on locked amounts
-for (investor_wallet, locked_amount) in investor_payouts {
-    let weight = calculate_investor_weight(locked_amount, page_locked_total)?;
-    let payout = (investor_amount * weight) / WEIGHT_PRECISION;
+    // Parse stream data
+    let stream = Self::parse_stream_data(&stream_account.data.borrow())?;
     
-    if payout >= policy_config.min_payout_lamports {
-        // Transfer payout to investor
-        transfer_to_investor(investor_wallet, payout)?;
-    } else {
-        // Accumulate dust for later distribution
-        distribution_progress.carry_over_dust += payout;
+    // Validate mint consistency
+    if &stream.mint != expected_mint {
+        return Err(ErrorCode::InvalidStreamMint.into());
+    }
+
+    Ok(stream)
+}
+```
+
+## Key Features
+
+### 1. Real-Time Vesting Calculation
+- Accurate locked amount calculation based on current timestamp
+- Support for cliff periods and linear vesting
+- Proper handling of withdrawals and stream states
+
+### 2. Multi-Stream Support
+- Process multiple streams per investor
+- Aggregate locked amounts across all streams
+- Efficient batch processing with pagination
+
+### 3. Error Resilience
+- Graceful handling of closed/canceled streams
+- Comprehensive validation of stream data
+- Arithmetic overflow protection
+
+### 4. Performance Optimization
+- Efficient stream data parsing
+- Minimal compute unit usage
+- Scalable for large investor counts
+
+## Testing Coverage
+
+### Unit Tests
+- `test_calculate_locked_amount_*`: Various vesting scenarios
+- `test_process_investor_streams_*`: Multi-stream processing
+- `test_validate_and_parse_stream_*`: Validation logic
+
+### Integration Tests
+- End-to-end distribution with real Streamflow data
+- Edge cases and error scenarios
+- Performance and scalability testing
+
+## Usage Examples
+
+### Basic Stream Processing
+```rust
+let current_time = Clock::get()?.unix_timestamp as u64;
+let (count, locked_total) = StreamflowIntegration::process_investor_streams(
+    &ctx.remaining_accounts[start_idx..end_idx],
+    &policy_config.quote_mint,
+    current_time,
+)?;
+```
+
+### Error Handling
+```rust
+match StreamflowIntegration::calculate_locked_amount(&stream, current_time) {
+    Ok(locked) => locked,
+    Err(e) => {
+        msg!("Stream processing error: {:?}", e);
+        return Err(e);
     }
 }
 ```
 
-## Vesting Calculation Logic
-
-The locked amount calculation follows this logic:
-
-1. **Before Start Time**: All deposited tokens are locked
-2. **Before Cliff Time**: All deposited tokens are locked
-3. **Linear Vesting Period**: 
-   ```
-   vested_amount = deposited_amount * (current_time - start_time) / (end_time - start_time)
-   available_amount = deposited_amount - withdrawn_amount
-   locked_amount = available_amount - vested_amount
-   ```
-4. **After End Time**: No tokens are locked (fully vested)
-5. **Closed Streams**: No tokens are locked
-
-## Error Handling
-
-The module provides comprehensive error handling for:
-
-- **StreamflowValidationFailed**: Invalid account data or ownership
-- **InvalidStreamMint**: Stream mint doesn't match expected token
-- **StreamClosed**: Attempting to process closed streams
-- **InvalidStreamTimeParameters**: Invalid vesting time configuration
-- **StreamflowDataParsingFailed**: Corrupted account data
-
-## Testing Support
-
-### Mock Data Generation
-
-```rust
-use crate::utils::mock_streamflow::MockStreamflowBuilder;
-
-// Create test streams with different vesting states
-let fully_locked = MockStreamflowBuilder::fully_locked_at(investor, mint, 1_000_000, timestamp);
-let half_vested = MockStreamflowBuilder::half_vested_at(investor, mint, 2_000_000, timestamp);
-let custom_vested = MockStreamflowBuilder::vested_percentage_at(investor, mint, 500_000, timestamp, 0.75);
-```
-
-### Test Scenarios
-
-```rust
-use crate::utils::mock_streamflow::MockInvestorScenario;
-
-// Pre-built test scenarios
-let diverse_scenario = MockInvestorScenario::diverse_vesting_scenario();
-let multi_stream_scenario = MockInvestorScenario::multiple_streams_per_investor();
-let dust_scenario = MockInvestorScenario::dust_scenario();
-```
-
-## Integration Patterns
-
-### 1. Batch Processing with Recovery
-
-- Save pagination cursor before processing each page
-- Process pages atomically
-- Update cursor only after successful processing
-- Enable retry from last successful position
-
-### 2. Gas Optimization
-
-- Use optimal page sizes (typically 10-20 investors per transaction)
-- Precompute total locked amounts when possible
-- Minimize cross-program invocations
-- Use efficient weight calculation algorithms
-
-### 3. Edge Case Handling
-
-- Handle fully vested investor sets gracefully
-- Manage dust accumulation and periodic payouts
-- Validate stream integrity before processing
-- Provide clear error messages for debugging
-
-### 4. Event Emission
-
-Emit events for monitoring and debugging:
-- `InvestorPageProcessed`: After each page completion
-- `DustAccumulated`: When payouts fall below threshold
-- `StreamflowValidationError`: When stream validation fails
-
-## Security Considerations
-
-1. **Account Validation**: Always validate Streamflow account ownership and data integrity
-2. **Arithmetic Safety**: Use overflow-protected arithmetic for all calculations
-3. **State Consistency**: Ensure pagination state remains consistent across transactions
-4. **Access Control**: Verify caller permissions for distribution operations
-
-## Performance Considerations
-
-1. **Compute Budget**: Limit page sizes to stay within Solana compute limits
-2. **Account Size**: Optimize data structures for minimal rent costs
-3. **Memory Usage**: Use efficient algorithms for large investor sets
-4. **Network Calls**: Minimize the number of transactions required for distribution
-
-## Future Enhancements
-
-Potential improvements for production deployment:
-
-1. **Advanced Vesting Models**: Support for non-linear vesting curves
-2. **Stream Aggregation**: Optimize processing for investors with many streams
-3. **Caching**: Cache frequently accessed stream data
-4. **Batch Operations**: Support for batch stream validation and processing
-5. **Monitoring**: Enhanced metrics and alerting for distribution health
+This implementation provides robust, efficient integration with Streamflow for dynamic fee distribution based on real-time vesting schedules.

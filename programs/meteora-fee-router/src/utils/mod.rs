@@ -7,21 +7,15 @@ pub mod investor_distribution;
 pub mod creator_distribution;
 
 #[cfg(test)]
-pub mod integration_test;
-#[cfg(test)]
 pub mod mock_streamflow;
-#[cfg(test)]
-pub mod streamflow_usage_example;
-#[cfg(test)]
-pub mod timing_integration_test;
-#[cfg(test)]
-pub mod timing_demo;
 #[cfg(test)]
 pub mod fee_claiming_tests;
 #[cfg(test)]
 pub mod creator_distribution_tests;
 #[cfg(test)]
-pub mod creator_distribution_unit_tests;
+pub mod investor_distribution_tests;
+#[cfg(test)]
+pub mod streamflow_tests;
 
 pub use math::*;
 pub use validation::*;

@@ -5,7 +5,8 @@ mod investor_distribution_tests {
         state::{PolicyConfig, DistributionProgress},
         utils::{
             math::{calculate_distribution, calculate_investor_weight, calculate_individual_payout},
-            streamflow::{StreamflowIntegration, InvestorData},
+            streamflow::InvestorData,
+            investor_distribution::*,
         },
         constants::*,
         error::ErrorCode,

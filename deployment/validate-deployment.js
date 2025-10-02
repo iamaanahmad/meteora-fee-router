@@ -6,7 +6,7 @@
  */
 
 const { Connection, PublicKey, Keypair } = require('@solana/web3.js');
-const { Program, AnchorProvider, Wallet } = require('@project-serum/anchor');
+const { Program, AnchorProvider, Wallet } = require('@coral-xyz/anchor');
 const fs = require('fs');
 
 // Configuration

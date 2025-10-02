@@ -195,3 +195,10 @@ pnpm-lock.yaml
 validation-results.json
 deployment-results.json
 test-output.json
+
+# Development files (cleaned up)
+setup-github-repo.*
+WORKFLOW_FIXES.md
+REPOSITORY_SETUP.md
+npm-publish-commands.md
+HACKATHON_*
