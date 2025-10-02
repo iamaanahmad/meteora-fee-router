@@ -47,8 +47,8 @@ Enhancement suggestions are tracked as GitHub issues. When creating an enhanceme
 
 ```bash
 # Clone your fork
-git clone https://github.com/iamaanahmad/meteora-fee-routing-anchor.git
-cd meteora-fee-routing-anchor
+git clone https://github.com/iamaanahmad/meteora-fee-router.git
+cd meteora-fee-router
 
 # Install dependencies
 npm install

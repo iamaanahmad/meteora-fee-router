@@ -17,9 +17,9 @@ The Meteora Fee Router is a production-ready Solana program that enables automat
 - **24-Hour Crank System**: Permissionless distribution with pagination
 - **Security Audited**: Built-in security validation and overflow protection
 
-### Test Coverage - 304 Tests Passing
+### Test Coverage - 295 Tests Passing
 - **7 TypeScript Test Suites**: Comprehensive integration testing
-- **304 Rust Unit Tests**: Core logic validation with 100% pass rate
+- **295 Rust Unit Tests**: Core logic validation with 100% pass rate
 - **Edge Case Coverage**: Failure scenarios and boundary conditions
 - **Performance Testing**: Compute budget optimization
 
@@ -61,7 +61,7 @@ The Meteora Fee Router is a production-ready Solana program that enables automat
 ### Code Quality - Production Grade
 - **Security First**: Comprehensive security audit and validation
 - **Well Documented**: Extensive inline and external documentation  
-- **Thoroughly Tested**: 304 unit tests + 7 integration test suites
+- **Thoroughly Tested**: 295 unit tests + 7 integration test suites
 - **Optimized**: Build and runtime optimizations applied
 
 ### Innovation - Industry First

@@ -11,7 +11,7 @@ The Meteora Fee Router team takes security seriously. We appreciate your efforts
 Instead, please use one of these secure channels:
 
 1. **GitHub Security Advisories** (Preferred)
-   - Go to the [Security tab](https://github.com/iamaanahmad/meteora-fee-routing-anchor/security/advisories)
+   - Go to the [Security tab](https://github.com/iamaanahmad/meteora-fee-router/security/advisories)
    - Click "Report a vulnerability"
    - Fill out the private vulnerability report form
 

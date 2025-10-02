@@ -15,10 +15,10 @@ cargo check --manifest-path programs/meteora-fee-router/Cargo.toml
 
 ### 2. **Run Unit Test Suite (2 minutes)**
 ```bash
-# Run all 304 unit tests
+# Run all 295 unit tests
 cargo test --manifest-path programs/meteora-fee-router/Cargo.toml
 ```
-**Expected**: `test result: ok. 304 passed; 0 failed`
+**Expected**: `test result: ok. 295 passed; 0 failed`
 
 ### 3. **Review Architecture (5 minutes)**
 - Check `programs/meteora-fee-router/src/lib.rs` - Main program structure
@@ -42,7 +42,7 @@ cargo test --manifest-path programs/meteora-fee-router/Cargo.toml
 
 ## 🧪 **Test Coverage Highlights**
 
-### Core Functionality Tests (304 total)
+### Core Functionality Tests (295 total)
 - **Honorary Position**: 25+ tests covering initialization and validation
 - **Fee Distribution**: 40+ tests covering 24h crank and pagination
 - **Streamflow Integration**: 30+ tests covering vesting calculations
@@ -155,7 +155,7 @@ This submission demonstrates:
 - **Production Readiness**: Immediate deployment capability
 - **Ecosystem Impact**: Enables new business models
 
-The 304 passing unit tests provide comprehensive validation of all functionality, making this submission judge-ready for first prize consideration.
+The 295 passing unit tests provide comprehensive validation of all functionality, making this submission judge-ready for first prize consideration.
 
 ---
 

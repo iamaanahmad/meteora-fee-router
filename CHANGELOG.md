@@ -37,7 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Batch processing with overflow protection
   - Comprehensive security audit system
 
-- 🧪 **Testing Suite** (304 tests total):
+- 🧪 **Testing Suite** (295 tests total):
   - Unit tests for all core functionality
   - Integration tests with Streamflow
   - Security audit tests with extreme value testing
@@ -68,7 +68,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Technical Details
 - **Language**: Rust with Anchor framework
 - **Platform**: Solana blockchain
-- **Test Coverage**: 100% with 304 comprehensive tests
+- **Test Coverage**: 100% with 295 comprehensive tests
 - **Security**: Comprehensive audit with extreme value testing
 - **Performance**: Optimized compute unit usage
 - **Integration**: Streamflow.finance for automated streaming
@@ -94,4 +94,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-**For more details on any release, see the [GitHub Releases](https://github.com/iamaanahmad/meteora-fee-routing-anchor/releases) page.**
+**For more details on any release, see the [GitHub Releases](https://github.com/iamaanahmad/meteora-fee-router/releases) page.**

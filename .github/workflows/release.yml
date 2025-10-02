@@ -34,10 +34,10 @@ jobs:
         - **Quote-Only Fee Collection**: Honorary DAMM v2 LP position with strict enforcement
         - **24-Hour Distribution Crank**: Permissionless system with pagination support
         - **Streamflow Integration**: Real-time vesting schedule reading for proportional distribution
-        - **Production Ready**: 304 passing tests with comprehensive coverage
+        - **Production Ready**: 295 passing tests with comprehensive coverage
         
         ## 🧪 Testing & Quality
-        - ✅ **304 Unit Tests** - All passing with comprehensive coverage
+        - ✅ **295 Unit Tests** - All passing with comprehensive coverage
         - ✅ **7 Integration Tests** - End-to-end scenario validation
         - ✅ **Security Audit** - Built-in security validation and overflow protection
         - ✅ **Performance Optimized** - Efficient compute usage for Solana constraints

@@ -41,7 +41,7 @@ The **Meteora Fee Router** perfectly fulfills the bounty requirements for:
 - **Quote-Only Enforcement**: Strict validation prevents base token fee accrual
 - **24-Hour Crank System**: Permissionless distribution with pagination support
 - **Streamflow Integration**: Reads vesting schedules for proportional distribution
-- **Comprehensive Testing**: 304 unit tests + 7 integration test suites
+- **Comprehensive Testing**: 295 unit tests + 7 integration test suites
 
 ### ✅ Production Package
 - **Security Audited**: Built-in security validation and overflow protection
@@ -85,8 +85,8 @@ payout = floor(investor_fee_quote * weight_i(t))
 ## 🧪 Comprehensive Testing
 
 ### Test Coverage Statistics
-- **304 Rust Unit Tests** - Core logic validation
-- **7 TypeScript Integration Tests** - End-to-end scenarios
+- **295 Rust Unit Tests** - Core logic validation
+- **8 TypeScript Integration Tests** - End-to-end scenarios
 - **Edge Case Coverage** - Failure scenarios and boundary conditions
 - **Performance Testing** - Compute budget optimization
 
