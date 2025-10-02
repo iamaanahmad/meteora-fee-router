@@ -1,10 +1,7 @@
-name: 🧪 Test Suite
+name: 🧪 Test Suite (Disabled)
 
 on:
-  push:
-    branches: [ main, develop ]
-  pull_request:
-    branches: [ main, develop ]
+  workflow_dispatch: # Manual trigger only - DISABLED for bounty submission
 
 env:
   CARGO_TERM_COLOR: always

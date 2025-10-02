@@ -1,9 +1,7 @@
-name: 🏷️ Release
+name: 🏷️ Release (Disabled)
 
 on:
-  push:
-    tags:
-      - 'v*'
+  workflow_dispatch: # Manual trigger only - DISABLED for bounty submission
 
 permissions:
   contents: write
