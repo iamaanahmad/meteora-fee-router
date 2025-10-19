@@ -15,7 +15,7 @@
 
 *Production-grade Solana program for automated fee distribution with quote-only accrual*
 
-[📖 **Documentation**](docs/) • [⚡ **Quickstart**](#-quickstart-one-command-demo) • [🎯 **Live Demo**](https://solscan.io/account/Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS) • [🏗️ **Architecture**](#-architecture) • [📄 **TL;DR**](BOUNTY_SUBMISSION_TLDR.md)
+[📖 **Documentation**](docs/) • [⚡ **Quickstart**](#-quickstart-one-command-demo) • [🏆 **Bounty Submission**](BOUNTY_SUBMISSION.md) • [🏗️ **Architecture**](#-architecture) • [✅ **Compliance Check**](BOUNTY_COMPLIANCE_CHECK.md)
 
 ---
 
