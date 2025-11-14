@@ -36,9 +36,3 @@ Add any other context about the problem here.
 ```
 Paste any relevant error logs here
 ```
-
-## 🎯 Hackathon Context
-- [ ] This is related to the hackathon submission
-- [ ] This affects the core functionality
-- [ ] This is a documentation issue
-- [ ] This is a deployment issue

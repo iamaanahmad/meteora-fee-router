@@ -1,7 +1,7 @@
 name: 🧪 Test Suite (Disabled)
 
 on:
-  workflow_dispatch: # Manual trigger only - DISABLED for bounty submission
+  workflow_dispatch: # Manual trigger only
 
 env:
   CARGO_TERM_COLOR: always

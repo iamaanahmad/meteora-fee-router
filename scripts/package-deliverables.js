@@ -2,7 +2,7 @@
 
 /**
  * Package Deliverables Script for Meteora Fee Router
- * Creates a complete submission package for the hackathon
+ * Creates a complete deployment package
  */
 
 const fs = require('fs');
@@ -11,12 +11,12 @@ const { execSync } = require('child_process');
 
 class DeliverablePackager {
     constructor() {
-        this.packageDir = 'hackathon-submission';
+        this.packageDir = 'build-artifacts';
         this.timestamp = new Date().toISOString().replace(/[:.]/g, '-');
     }
 
     async createPackage() {
-        console.log('📦 Creating Meteora Fee Router hackathon submission package...\n');
+        console.log('📦 Creating Meteora Fee Router deployment package...\n');
 
         // Create package directory
         if (fs.existsSync(this.packageDir)) {
@@ -39,15 +39,15 @@ class DeliverablePackager {
         // Copy configuration templates
         await this.copyConfigurationTemplates();
         
-        // Create submission manifest
-        await this.createSubmissionManifest();
+        // Create deployment manifest
+        await this.createDeploymentManifest();
         
         // Generate final report
         await this.generateFinalReport();
 
-        console.log(`\n🎉 Hackathon submission package created successfully!`);
+        console.log(`\n🎉 Deployment package created successfully!`);
         console.log(`📁 Package location: ${this.packageDir}/`);
-        console.log(`📋 Ready for submission!`);
+        console.log(`🚀 Ready for deployment!`);
     }
 
     async copyProgramFiles() {
@@ -163,8 +163,8 @@ class DeliverablePackager {
         console.log('✅ Configuration templates copied');
     }
 
-    async createSubmissionManifest() {
-        console.log('📋 Creating submission manifest...');
+    async createDeploymentManifest() {
+        console.log('📋 Creating deployment manifest...');
         
         const manifest = {
             project: "Meteora Fee Router",

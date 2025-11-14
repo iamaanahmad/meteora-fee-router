@@ -248,17 +248,10 @@ class FinalValidator {
         }
     }
 
-    async validateHackathonDeliverables() {
-        this.log('INFO', 'Validating Hackathon Deliverables');
+    async validateBuildArtifacts() {
+        this.log('INFO', 'Validating Build Artifacts');
         
-        // Check hackathon details
-        if (fs.existsSync('docs/hackathon-requirements.md')) {
-            this.log('PASS', 'Hackathon details documented');
-        } else {
-            this.log('WARN', 'Hackathon details file missing');
-        }
-
-        // Check program size for deployment
+        // Check program build
         try {
             execSync('anchor build', { stdio: 'pipe' });
             const programPath = 'target/deploy/meteora_fee_router.so';
@@ -286,7 +279,7 @@ class FinalValidator {
         await this.validateDocumentation();
         await this.validateDeploymentReadiness();
         await this.validateSecurityAudit();
-        await this.validateHackathonDeliverables();
+        await this.validateBuildArtifacts();
         
         this.printSummary();
         return this.results.failed === 0;
@@ -294,7 +287,7 @@ class FinalValidator {
 
     printSummary() {
         console.log('\n' + '='.repeat(60));
-        console.log('📊 FINAL VALIDATION SUMMARY');
+        console.log('📊 VALIDATION SUMMARY');
         console.log('='.repeat(60));
         console.log(`✅ Passed: ${this.results.passed}`);
         console.log(`❌ Failed: ${this.results.failed}`);
@@ -305,7 +298,7 @@ class FinalValidator {
             console.log('🚀 Ready for hackathon submission!');
         } else {
             console.log('\n❌ VALIDATION FAILURES DETECTED');
-            console.log('🔧 Please address failed items before submission');
+            console.log('🔧 Please address failed items before deployment');
         }
         
         console.log('\n📋 Detailed results saved to validation log');
