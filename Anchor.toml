@@ -8,11 +8,14 @@ skip-lint = false
 [programs.localnet]
 meteora_fee_router = "Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS"
 
+[programs.devnet]
+meteora_fee_router = "6LHfK4a941ABKnyCfyhUiGhVdQR6z7q8Xnb8uxVb3Zfc"
+
 [registry]
 url = "https://api.apr.dev"
 
 [provider]
-cluster = "Localnet"
+cluster = "Devnet"
 wallet = "~/.config/solana/id.json"
 
 [scripts]

@@ -21,7 +21,8 @@
 **Cluster:** Solana Devnet  
 **Anchor Version:** 0.29.0  
 **Network:** Devnet (Production ready)  
-**Explorer:** [Solscan](https://solscan.io/)
+**Program ID:** `6LHfK4a941ABKnyCfyhUiGhVdQR6z7q8Xnb8uxVb3Zfc`  
+**Explorer:** [View on Solscan](https://solscan.io/account/6LHfK4a941ABKnyCfyhUiGhVdQR6z7q8Xnb8uxVb3Zfc?cluster=devnet)
 
 📦 **IDL:** Available at `target/idl/meteora_fee_router.json`  
 📦 **Types:** Available at `target/types/meteora_fee_router.ts`
@@ -447,7 +448,16 @@ cargo test --manifest-path programs/meteora-fee-router/Cargo.toml
 
 ## 🚀 Deployment
 
-### Quick Deploy
+### Live Deployment
+
+The program is now deployed on Solana Devnet:
+
+- **Program ID:** `6LHfK4a941ABKnyCfyhUiGhVdQR6z7q8Xnb8uxVb3Zfc`
+- **Status:** ✅ Active and ready for use
+- **Network:** Devnet
+- **Wallet:** Pre-funded with 10.38 SOL for testing
+
+### Quick Deploy (Local Testing)
 
 ```bash
 # Optimize build
@@ -462,12 +472,12 @@ node deployment/validate-deployment.js
 
 ### Configuration
 
-Use templates in `config-templates/` for deployment conration:
+Use templates in `config-templates/` for deployment configuration:
 
 ```json
 {
   "network": "devnet",
-  "programId": "Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS",
+  "programId": "6LHfK4a941ABKnyCfyhUiGhVdQR6z7q8Xnb8uxVb3Zfc",
   "quoteMint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
   "investorFeeShareBps": 7000,
   "minPayoutLamports": 1000
