@@ -172,7 +172,6 @@ jobs:
         path: |
           target/deploy/
           target/idl/
-          hackathon-submission/
           
   deploy-devnet:
     name: 🚀 Deploy to Devnet

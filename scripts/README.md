@@ -4,15 +4,11 @@ This directory contains utility scripts for project management and automation.
 
 ## Available Scripts
 
-- **[package-deliverables.js](package-deliverables.js)** - Package project for submission
+- **[package-deliverables.js](package-deliverables.js)** - Package project artifacts
 
 ## Usage
 
 ```bash
-# Package deliverables for hackathon submission
+# Package project deliverables
 node scripts/package-deliverables.js
 ```
-
-## Output
-
-Scripts generate organized packages in the `hackathon-submission/` directory.

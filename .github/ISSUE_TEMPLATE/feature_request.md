@@ -42,9 +42,3 @@ A clear and concise description of any alternative solutions or features you've 
 
 ## 📋 Additional Context
 Add any other context or screenshots about the feature request here.
-
-## 🎯 Hackathon Relevance
-- [ ] This would enhance the hackathon submission
-- [ ] This is for post-hackathon development
-- [ ] This relates to judge feedback
-- [ ] This improves production readiness
