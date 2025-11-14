@@ -1,7 +1,10 @@
-name: 🏷️ Release (Disabled)
+name: 🏷️ Release
 
 on:
-  workflow_dispatch: # Manual trigger only
+  push:
+    tags:
+      - 'v*' # Trigger on version tags (v1.0.0, v1.1.0, etc.)
+  workflow_dispatch: # Manual trigger also available
 
 permissions:
   contents: write
