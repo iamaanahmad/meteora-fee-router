@@ -46,7 +46,11 @@ jobs:
         
     - name: ☀️ Install Solana CLI
       run: |
-        sh -c "$(curl -sSfL https://release.solana.com/v${{ env.SOLANA_VERSION }}/install)"
+        for i in {1..3}; do
+          sh -c "$(curl -sSfL --retry 3 https://release.solana.com/v${{ env.SOLANA_VERSION }}/install)" && break
+          echo "Retry $i failed, waiting..."
+          sleep 5
+        done
         echo "$HOME/.local/share/solana/install/active_release/bin" >> $GITHUB_PATH
         
     - name: ⚓ Install Anchor CLI
@@ -141,7 +145,11 @@ jobs:
         
     - name: ☀️ Install Solana CLI
       run: |
-        sh -c "$(curl -sSfL https://release.solana.com/v${{ env.SOLANA_VERSION }}/install)"
+        for i in {1..3}; do
+          sh -c "$(curl -sSfL --retry 3 https://release.solana.com/v${{ env.SOLANA_VERSION }}/install)" && break
+          echo "Retry $i failed, waiting..."
+          sleep 5
+        done
         echo "$HOME/.local/share/solana/install/active_release/bin" >> $GITHUB_PATH
         
     - name: ⚓ Install Anchor CLI
@@ -191,7 +199,11 @@ jobs:
         
     - name: ☀️ Install Solana CLI
       run: |
-        sh -c "$(curl -sSfL https://release.solana.com/v${{ env.SOLANA_VERSION }}/install)"
+        for i in {1..3}; do
+          sh -c "$(curl -sSfL --retry 3 https://release.solana.com/v${{ env.SOLANA_VERSION }}/install)" && break
+          echo "Retry $i failed, waiting..."
+          sleep 5
+        done
         echo "$HOME/.local/share/solana/install/active_release/bin" >> $GITHUB_PATH
         
     - name: 🔑 Setup deployment key
