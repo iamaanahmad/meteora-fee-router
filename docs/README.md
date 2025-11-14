@@ -17,7 +17,6 @@ This directory contains comprehensive documentation for the Meteora Fee Router p
 3. Use [Operational Procedures](OPERATIONAL_PROCEDURES.md) for daily operations
 4. Refer to [Troubleshooting Guide](TROUBLESHOOTING_GUIDE.md) for issue resolution
 
-## Additional Resources
+## Deployment
 
-- **Hackathon Details**: [hackathon-requirements.md](hackathon-requirements.md)
-- **Readiness Report**: [HACKATHON_READINESS_REPORT.md](../HACKATHON_READINESS_REPORT.md)
+See [../deployment/README.md](../deployment/README.md) for deployment instructions to Solana devnet.

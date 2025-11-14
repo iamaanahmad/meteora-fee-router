@@ -2,7 +2,7 @@
 
 ## 🎯 Overview
 
-This document outlines the complete project structure for the **Meteora Fee Router**, a production-ready Solana program that enables automated fee distribution from DAMM V2 pools to investors based on their Streamflow vesting schedules.
+This document outlines the complete project structure for the **Meteora Fee Router**, a production-grade Solana program that enables automated fee distribution from DAMM V2 pools to investors based on their Streamflow vesting schedules.
 
 ## 📂 Root Directory Structure
 

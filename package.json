@@ -6,7 +6,6 @@
   "files": [
     "README.md",
     "LICENSE",
-    "BOUNTY_SUBMISSION.md",
     "docs/",
     "programs/meteora-fee-router/src/",
     "programs/meteora-fee-router/Cargo.toml",
@@ -48,7 +47,6 @@
     "anchor",
     "defi",
     "meteora",
-    "bounty",
     "fee-distribution",
     "streamflow",
     "damm-v2",
@@ -95,16 +93,5 @@
   },
   "peerDependencies": {
     "@coral-xyz/anchor": "^0.29.0"
-  },
-  "funding": {
-    "type": "bounty",
-    "url": "https://superteam.fun/"
-  },
-  "bounty": {
-    "name": "Star at Superteam Earn",
-    "category": "DeFi Infrastructure - Meteora DAMM V2 Fee Routing",
-    "submission_date": "2025-10-01",
-    "team": "Meteora Fee Router Team",
-    "sponsor": "Star"
   }
 }

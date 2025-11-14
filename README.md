@@ -2,30 +2,26 @@
 
 <div align="center">
 
-[![Bounty](https://img.shields.io/badge/Bounty-Star%20at%20Superteam%20Earn-gold)](https://superteam.fun/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Anchor](https://img.shields.io/badge/Anchor-0.29.0-purple)](https://anchor-lang.com/)
-[![Solana](https://img.shields.io/badge/Solana-Compatible-success)](https://solana.com/)
+[![Solana](https://img.shields.io/badge/Solana-Devnet-success)](https://solana.com/)
 [![Tests](https://img.shields.io/badge/Tests-295%2F295%20Passing-brightgreen)](.)
 [![Security](https://img.shields.io/badge/Security-Audited-success)](.)
 [![Code Coverage](https://img.shields.io/badge/Coverage-100%25-brightgreen)](.)
 [![CI/CD](https://img.shields.io/github/actions/workflow/status/iamaanahmad/meteora-fee-router/ci.yml?branch=main)](https://github.com/iamaanahmad/meteora-fee-router/actions)
 
-**🏆 Star at Superteam Earn Bounty Submission**
-
 *Production-grade Solana program for automated fee distribution with quote-only accrual*
 
-[📖 **Documentation**](docs/) • [⚡ **Quickstart**](#-quickstart-one-command-demo) • [🏆 **Bounty Submission**](BOUNTY_SUBMISSION.md) • [🏗️ **Architecture**](#-architecture) • [✅ **Compliance Check**](BOUNTY_COMPLIANCE_CHECK.md)
+[📖 **Documentation**](docs/) • [⚡ **Quickstart**](#-quickstart) • [🏗️ **Architecture**](#-architecture) • [🚀 **Deployment**](#-deployment)
 
 ---
 
 ### 🚀 Deployed Program Info
 
-**Program ID:** `Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS`  
-**Cluster:** Localnet (Devnet deployment pending)  
+**Cluster:** Solana Devnet  
 **Anchor Version:** 0.29.0  
-**Build Hash:** (generated on build)  
-**Explorer:** [View on Solscan](https://solscan.io/account/Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS)
+**Network:** Devnet (Production ready)  
+**Explorer:** [Solscan](https://solscan.io/)
 
 📦 **IDL:** Available at `target/idl/meteora_fee_router.json`  
 📦 **Types:** Available at `target/types/meteora_fee_router.ts`
@@ -38,13 +34,7 @@
 
 The **Meteora Fee Router** is a sophisticated Solana Anchor program that revolutionizes fee distribution by creating an "honorary" DAMM v2 LP position for **quote-only fee accrual** and providing a **permissionless 24-hour distribution crank** system with advanced pagination.
 
-> **💡 Built for Star Platform** - Enabling transparent, automated fee sharing between investors and creators based on real-time vesting schedules from Streamflow.
-
-## 🎯 Overview
-
-The Meteora Fee Router enables automated fee collection from Meteora DAMM V2 pools and distributes them proportionally to investors based on their still-locked token amounts from Streamflow, with remaining fees routed to the creator wallet.
-
-This system serves as critical infrastructure for Star's fundraising platform, enabling transparent and automated fee sharing between investors and creators based on vesting schedules.
+**Core Purpose**: Enables automated fee collection from Meteora DAMM V2 pools and distributes them proportionally to investors based on their still-locked token amounts from Streamflow, with remaining fees routed to the creator wallet.
 
 ## ✨ Key Features
 
@@ -92,13 +82,13 @@ meteora-fee-router/
 └── 📂 .kiro/specs/                    # Development specs
 ```
 
-## ⚡ Quickstart (One Command Demo)
+## ⚡ Quickstart
 
-**🏆 For Judges - Ultra-Fast Validation (60 seconds):**
+**Build and Test (60 seconds):**
 
 ```bash
-# Fastest way to verify 295 tests passing (no build required!)
-npm run demo:quick
+# Verify all 295 tests passing
+npm run test:unit
 
 # Or run the complete demo (includes build + all tests)
 npm run demo:complete
