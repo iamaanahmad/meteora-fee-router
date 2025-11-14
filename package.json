@@ -1,6 +1,6 @@
 {
   "name": "@ashqking/meteora-fee-router",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Production-grade Solana program for automated fee distribution with quote-only accrual",
   "main": "README.md",
   "files": [
