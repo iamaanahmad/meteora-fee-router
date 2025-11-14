@@ -78,7 +78,6 @@ meteora-fee-router/
 │   └── deployment-config.json
 ├── 📂 scripts/                        # Utility scripts
 │   └── package-deliverables.js
-├── 📂 hackathon-submission/           # Packaged submission
 └── 📂 .kiro/specs/                    # Development specs
 ```
 
@@ -501,17 +500,6 @@ The program has undergone comprehensive security review. See [Security Audit Sum
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🏆 Bounty Submission
-
-This project was developed for the **Star at Superteam Earn** bounty program. See [bounty-submission/](bounty-submission/) for the complete submission package.
-
-### Key Achievements
-
-- ✅ **100% Requirements Compliance** - All bounty specifications met exactly
-- ✅ **Production Ready** - Comprehensive testing and security
-- ✅ **Innovation** - First quote-only fee distribution system
-- ✅ **Practical Value** - Immediate deployment capability for Star platform
 
 ## 📞 Support
 
