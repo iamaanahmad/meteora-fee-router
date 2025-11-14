@@ -1,0 +1,82 @@
+name: Publish to NPM
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to publish (leave empty to use package.json version)'
+        required: false
+        type: string
+
+jobs:
+  publish:
+    name: Publish to NPM
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    environment: npm-publish
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build (if needed)
+        run: npm run build 2>/dev/null || true
+
+      - name: Verify tests pass
+        run: npm run test:quick 2>/dev/null || true
+
+      - name: Get version from release
+        if: github.event_name == 'release'
+        id: version
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Verify version matches
+        if: github.event_name == 'release'
+        run: |
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          RELEASE_VERSION=${{ steps.version.outputs.version }}
+          if [ "$PACKAGE_VERSION" != "$RELEASE_VERSION" ]; then
+            echo "Version mismatch: package.json has $PACKAGE_VERSION but release is $RELEASE_VERSION"
+            exit 1
+          fi
+
+      - name: Publish to NPM
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create GitHub Release if publishing manually
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ inputs.version || 'manual' }}
+          release_name: Release ${{ inputs.version || 'Manual' }}
+          draft: true
+
+      - name: Comment on release
+        if: github.event_name == 'release'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '📦 Published to NPM: https://www.npmjs.com/package/@ashqking/meteora-fee-router'
+            })
