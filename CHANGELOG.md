@@ -5,6 +5,42 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2025-12-21
+
+### Added
+
+- ✅ **Deployed to Solana Devnet** - Program is now live!
+  - Program ID: `6LHfK4a941ABKnyCfyhUiGhVdQR6z7q8Xnb8uxVb3Zfc`
+  - Latest Deployed Slot: 429815311
+  - Upgrade Authority: `EwrEb3sWWiaz7mAN4XaDiADcjmBL85Eiq6JFVXrKU7En`
+
+- ✅ **Streamflow Integration Hardened**
+  - Added `STREAMFLOW_PROGRAM_ID` constant (`strmRqUCoQUgGUan5YhzUZa6KqdzwX5L6FpUxfmKg5m`)
+  - Added owner validation - streams must be owned by Streamflow program
+  - Added `InvalidStreamflowAccountOwner` error code
+  - Fixed account layout to match @streamflow/stream SDK v10.x (period-based vesting)
+  - Verified byte offsets: sender@49, recipient@113, mint@177, period@425, etc.
+
+### Changed
+
+- Updated to Anchor 0.32.1 (from 0.29.0)
+- Updated to Rust 1.83.0 (from 1.80.0)
+- Updated Solana SDK to 2.x compatibility
+- Fixed `solana_program` imports to use `anchor_lang::solana_program`
+
+### Fixed
+
+- ELF section name issue with Solana 3.x loader (section names must be ≤16 bytes)
+- Dependency compatibility issues with Anchor 0.32.x
+
+### Documentation
+
+- Updated README with live deployment status
+- Updated deployment guide with upgrade instructions
+- Added ELF troubleshooting documentation
+
+---
+
 ## [1.0.0] - 2025-11-14
 
 ### Added

@@ -3,11 +3,11 @@
 <div align="center">
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Anchor](https://img.shields.io/badge/Anchor-0.29.0-purple)](https://anchor-lang.com/)
-[![Solana](https://img.shields.io/badge/Solana-Devnet-success)](https://solana.com/)
-[![Tests](https://img.shields.io/badge/Tests-295%2F295%20Passing-brightgreen)](.)
-[![Security](https://img.shields.io/badge/Security-Audited-success)](.)
-[![Code Coverage](https://img.shields.io/badge/Coverage-100%25-brightgreen)](.)
+[![Anchor](https://img.shields.io/badge/Anchor-0.32.1-purple)](https://anchor-lang.com/)
+[![Solana](https://img.shields.io/badge/Solana-Devnet%20Deployed-success)](https://explorer.solana.com/address/6LHfK4a941ABKnyCfyhUiGhVdQR6z7q8Xnb8uxVb3Zfc?cluster=devnet)
+[![Tests](https://img.shields.io/badge/Tests-295%2F295%20Passing-brightgreen)](.)  
+[![Security](https://img.shields.io/badge/Security-Audited-success)](.)  
+[![Code Coverage](https://img.shields.io/badge/Coverage-100%25-brightgreen)](.)  
 [![CI/CD](https://img.shields.io/github/actions/workflow/status/iamaanahmad/meteora-fee-router/ci.yml?branch=main)](https://github.com/iamaanahmad/meteora-fee-router/actions)
 
 *Production-grade Solana program for automated fee distribution with quote-only accrual*
@@ -18,16 +18,15 @@
 
 ### 🚀 Deployed Program Info
 
-**Cluster:** Solana Devnet  
-**Anchor Version:** 0.29.0  
-**Network:** Devnet (Production ready)  
-**Program ID:** `6LHfK4a941ABKnyCfyhUiGhVdQR6z7q8Xnb8uxVb3Zfc`  
-**Explorer:** [View on Solscan](https://solscan.io/account/6LHfK4a941ABKnyCfyhUiGhVdQR6z7q8Xnb8uxVb3Zfc?cluster=devnet)
-
-📦 **IDL:** Available at `target/idl/meteora_fee_router.json`  
-📦 **Types:** Available at `target/types/meteora_fee_router.ts`
-
-</div>
+| Property | Value |
+|----------|-------|
+| **Status** | ✅ **LIVE ON DEVNET** |
+| **Program ID** | [`6LHfK4a941ABKnyCfyhUiGhVdQR6z7q8Xnb8uxVb3Zfc`](https://explorer.solana.com/address/6LHfK4a941ABKnyCfyhUiGhVdQR6z7q8Xnb8uxVb3Zfc?cluster=devnet) |
+| **Cluster** | Solana Devnet |
+| **Anchor Version** | 0.32.1 |
+| **Deployed Slot** | 429815311 |
+| **Upgrade Authority** | `EwrEb3sWWiaz7mAN4XaDiADcjmBL85Eiq6JFVXrKU7En` |
+| **Explorer** | [Solana Explorer](https://explorer.solana.com/address/6LHfK4a941ABKnyCfyhUiGhVdQR6z7q8Xnb8uxVb3Zfc?cluster=devnet) \| [Solscan](https://solscan.io/account/6LHfK4a941ABKnyCfyhUiGhVdQR6z7q8Xnb8uxVb3Zfc?cluster=devnet) |
 
 ---
 
@@ -108,10 +107,10 @@ test result: ok. 295 passed; 0 failed; 0 ignored
 ### 📋 Prerequisites
 
 **Required versions (pinned for reproducibility):**
-- **Rust**: `1.75.0` (see `rust-toolchain.toml`)
+- **Rust**: `1.83.0` (see `rust-toolchain.toml`)
 - **Node.js**: `18.17.0` (see `.nvmrc`)
-- **Solana CLI**: `1.16.0+`
-- **Anchor**: `0.29.0` (see `Anchor.toml`)
+- **Solana CLI**: `2.2.3+` or `3.0.x`
+- **Anchor**: `0.32.1` (see `Anchor.toml`)
 
 **Quick environment setup:**
 ```bash
@@ -123,12 +122,12 @@ nvm install
 nvm use
 
 # Install Solana CLI
-sh -c "$(curl -sSfL https://release.solana.com/v1.16.0/install)"
+sh -c "$(curl -sSfL https://release.anza.xyz/stable/install)"
 
 # Install Anchor
 cargo install --git https://github.com/coral-xyz/anchor avm --locked --force
-avm install 0.29.0
-avm use 0.29.0
+avm install 0.32.1
+avm use 0.32.1
 ```
 
 ### 🚀 Full Setup & Demo

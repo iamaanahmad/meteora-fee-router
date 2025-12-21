@@ -1,7 +1,7 @@
 [package]
 name = "meteora-fee-router"
-version = "0.1.0"
-description = "Meteora Fee Router - Honorary DAMM V2 LP position fee distribution system"
+version = "1.1.0"
+description = "Meteora Fee Router - Honorary DAMM V2 LP position fee distribution system - DEPLOYED TO DEVNET"
 edition = "2021"
 
 [lib]
@@ -14,11 +14,11 @@ no-idl = []
 no-log-ix-name = []
 cpi = ["no-entrypoint"]
 default = []
+idl-build = ["anchor-lang/idl-build", "anchor-spl/idl-build"]
 
 [dependencies]
-anchor-lang = "0.29.0"
-anchor-spl = "0.29.0"
-solana-program = "1.16.25"
+anchor-lang = "0.32.1"
+anchor-spl = "0.32.1"
 
 # Additional utility crates
 bytemuck = "1.13.1"

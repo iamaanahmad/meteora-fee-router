@@ -103,4 +103,7 @@ pub enum ErrorCode {
     
     #[msg("Invalid vault account")]
     InvalidVaultAccount,
+    
+    #[msg("Invalid Streamflow account owner - not owned by Streamflow program")]
+    InvalidStreamflowAccountOwner,
 }

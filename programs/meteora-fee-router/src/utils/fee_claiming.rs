@@ -1,7 +1,8 @@
 use anchor_lang::prelude::*;
+use anchor_lang::solana_program::program::invoke_signed;
+use anchor_lang::solana_program::instruction::{Instruction, AccountMeta};
 use anchor_spl::token::{Token, TokenAccount, Transfer, transfer};
 use anchor_spl::associated_token::AssociatedToken;
-use solana_program::program::invoke_signed;
 
 use crate::{
     error::ErrorCode,
@@ -214,13 +215,13 @@ fn claim_fees_cpi<'info>(
     let instruction_data = prepare_collect_fees_instruction_data()?;
     
     // Create the instruction for CPI call
-    let collect_fees_ix = solana_program::instruction::Instruction {
+    let collect_fees_ix = Instruction {
         program_id: *cp_amm_program.key,
         accounts: vec![
-            solana_program::instruction::AccountMeta::new(*position_account.key, false),
-            solana_program::instruction::AccountMeta::new_readonly(*position_owner_pda.key, true),
-            solana_program::instruction::AccountMeta::new(*treasury_ata.to_account_info().key, false),
-            solana_program::instruction::AccountMeta::new_readonly(*token_program.key, false),
+            AccountMeta::new(*position_account.key, false),
+            AccountMeta::new_readonly(*position_owner_pda.key, true),
+            AccountMeta::new(*treasury_ata.to_account_info().key, false),
+            AccountMeta::new_readonly(*token_program.key, false),
         ],
         data: instruction_data,
     };

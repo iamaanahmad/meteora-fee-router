@@ -12,7 +12,10 @@ pub struct MockStreamflowBuilder {
     start_time: i64,
     end_time: i64,
     cliff_time: i64,
-    closed_at: Option<i64>,
+    cliff_amount: u64,
+    amount_per_period: u64,
+    period: u64,
+    closed: bool,
 }
 
 #[cfg(test)]
@@ -27,7 +30,10 @@ impl MockStreamflowBuilder {
             start_time: 1000,
             end_time: 2000,
             cliff_time: 1000,
-            closed_at: None,
+            cliff_amount: 0,
+            amount_per_period: 1000,  // 1000 per period
+            period: 100,               // 100 second periods
+            closed: false,
         }
     }
 
@@ -52,8 +58,23 @@ impl MockStreamflowBuilder {
         self
     }
 
-    pub fn closed_at(mut self, closed: Option<i64>) -> Self {
-        self.closed_at = closed;
+    pub fn cliff_amount(mut self, amount: u64) -> Self {
+        self.cliff_amount = amount;
+        self
+    }
+
+    pub fn amount_per_period(mut self, amount: u64) -> Self {
+        self.amount_per_period = amount;
+        self
+    }
+
+    pub fn period(mut self, period: u64) -> Self {
+        self.period = period;
+        self
+    }
+
+    pub fn closed(mut self, closed: bool) -> Self {
+        self.closed = closed;
         self
     }
 
@@ -64,14 +85,17 @@ impl MockStreamflowBuilder {
 
     pub fn build(self) -> StreamflowStream {
         StreamflowStream {
-            recipient: self.recipient,
             sender: self.sender,
+            recipient: self.recipient,
             mint: self.mint,
             deposited_amount: self.deposited_amount,
             withdrawn_amount: self.withdrawn_amount,
             start_time: self.start_time,
             end_time: self.end_time,
             cliff_time: self.cliff_time,
+            cliff_amount: self.cliff_amount,
+            amount_per_period: self.amount_per_period,
+            period: self.period,
             cancelable_by_sender: true,
             cancelable_by_recipient: false,
             automatic_withdrawal: false,
@@ -79,10 +103,8 @@ impl MockStreamflowBuilder {
             transferable_by_recipient: false,
             can_topup: false,
             stream_name: [0u8; 64],
-            withdrawn_tokens_recipient: 0,
-            withdrawn_tokens_sender: 0,
             last_withdrawn_at: 0,
-            closed_at: self.closed_at,
+            closed: self.closed,
         }
     }
 
@@ -91,6 +113,7 @@ impl MockStreamflowBuilder {
         Self::new(recipient, mint)
             .deposited_amount(amount)
             .vesting_period(timestamp + 1000, timestamp + 2000) // Starts in future
+            .cliff_time(timestamp + 1000)
             .build()
     }
 
@@ -99,16 +122,25 @@ impl MockStreamflowBuilder {
         Self::new(recipient, mint)
             .deposited_amount(amount)
             .vesting_period(timestamp - 2000, timestamp - 1000) // Ended in past
+            .cliff_time(timestamp - 2000)
             .build()
     }
 
-    /// Create a stream that's 50% vested at the given timestamp
+    /// Create a stream that's exactly 50% vested at the given timestamp
+    /// Uses 10 periods of 100 seconds each to get clean 50% at midpoint
     pub fn half_vested_at(recipient: Pubkey, mint: Pubkey, amount: u64, timestamp: i64) -> StreamflowStream {
         let duration = 1000i64;
+        let period = 100u64;  // 10 periods total
+        let num_periods = (duration as u64) / period;
+        let amount_per_period = amount / num_periods;
+        
         Self::new(recipient, mint)
             .deposited_amount(amount)
             .vesting_period(timestamp - duration / 2, timestamp + duration / 2)
             .cliff_time(timestamp - duration / 2)
+            .period(period)
+            .amount_per_period(amount_per_period)
+            .cliff_amount(0)
             .build()
     }
 
@@ -123,11 +155,17 @@ impl MockStreamflowBuilder {
         let duration = 1000i64;
         let start_time = timestamp - (duration as f64 * vested_percentage) as i64;
         let end_time = start_time + duration;
+        let period = 100u64;
+        let num_periods = (duration as u64) / period;
+        let amount_per_period = amount / num_periods;
         
         Self::new(recipient, mint)
             .deposited_amount(amount)
             .vesting_period(start_time, end_time)
             .cliff_time(start_time)
+            .period(period)
+            .amount_per_period(amount_per_period)
+            .cliff_amount(0)
     }
 
     pub fn vested_percentage_at(
@@ -297,17 +335,17 @@ mod tests {
         // Test fully locked
         let locked_stream = MockStreamflowBuilder::fully_locked_at(recipient, mint, amount, timestamp);
         let locked_amount = StreamflowIntegration::calculate_locked_amount(&locked_stream, timestamp).unwrap();
-        assert_eq!(locked_amount, amount);
+        assert_eq!(locked_amount, amount, "Fully locked stream should have all tokens locked");
 
         // Test fully vested
         let vested_stream = MockStreamflowBuilder::fully_vested_at(recipient, mint, amount, timestamp);
         let locked_amount = StreamflowIntegration::calculate_locked_amount(&vested_stream, timestamp).unwrap();
-        assert_eq!(locked_amount, 0);
+        assert_eq!(locked_amount, 0, "Fully vested stream should have no tokens locked");
 
-        // Test half vested
+        // Test half vested - with period-based vesting, we get 50% locked
         let half_stream = MockStreamflowBuilder::half_vested_at(recipient, mint, amount, timestamp);
         let locked_amount = StreamflowIntegration::calculate_locked_amount(&half_stream, timestamp).unwrap();
-        assert_eq!(locked_amount, amount / 2);
+        assert_eq!(locked_amount, amount / 2, "Half vested stream should have 50% locked");
     }
 
     #[test]
@@ -317,9 +355,27 @@ mod tests {
         assert_eq!(scenario.investors.len(), 4);
         assert_eq!(scenario.streams.len(), 4);
         
+        // Calculate individual locked amounts for clarity
+        let locked1 = StreamflowIntegration::calculate_locked_amount(&scenario.streams[0], scenario.timestamp).unwrap();
+        let locked2 = StreamflowIntegration::calculate_locked_amount(&scenario.streams[1], scenario.timestamp).unwrap();
+        let locked3 = StreamflowIntegration::calculate_locked_amount(&scenario.streams[2], scenario.timestamp).unwrap();
+        let locked4 = StreamflowIntegration::calculate_locked_amount(&scenario.streams[3], scenario.timestamp).unwrap();
+        
+        // Investor 1: 1M fully locked
+        assert_eq!(locked1, 1_000_000);
+        // Investor 2: 2M half vested = 1M locked
+        assert_eq!(locked2, 1_000_000);
+        // Investor 3: 1M at 75% vested with period-based vesting
+        // 75% = 750 seconds elapsed, period = 100, so 7 periods elapsed
+        // amount_per_period = 1M / 10 = 100k, unlocked = 7 * 100k = 700k
+        // locked = 1M - 700k = 300k
+        assert_eq!(locked3, 300_000);
+        // Investor 4: Fully vested = 0 locked
+        assert_eq!(locked4, 0);
+        
         let total_locked = scenario.total_locked();
-        // Investor 1: 1M locked + Investor 2: 1M locked + Investor 3: 250k locked + Investor 4: 0 locked
-        assert_eq!(total_locked, 2_250_000);
+        // 1M + 1M + 300k + 0 = 2.3M
+        assert_eq!(total_locked, 2_300_000);
         
         let total_allocation = scenario.total_allocation();
         // 1M + 2M + 1M + 500k = 4.5M
