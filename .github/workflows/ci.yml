@@ -11,7 +11,7 @@ permissions:
 env:
   CARGO_TERM_COLOR: always
   SOLANA_VERSION: 1.16.25
-  ANCHOR_VERSION: 0.29.0
+  ANCHOR_VERSION: 0.32.1
 
 jobs:
   test:
@@ -115,13 +115,7 @@ jobs:
         cargo install cargo-audit
         cargo audit --ignore RUSTSEC-2023-0071 --ignore RUSTSEC-2024-0370
       continue-on-error: true
-        
-    - name: 🔍 Security audit (alternative)
-      uses: actions-rs/audit@v1
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-      continue-on-error: true
-        
+
   build:
     name: 🏗️ Build & Package
     runs-on: ubuntu-latest
@@ -169,10 +163,6 @@ jobs:
         chmod +x deployment/optimize-build.sh
         ./deployment/optimize-build.sh
         
-    - name: 📦 Package deliverables
-      run: |
-        node scripts/package-deliverables.js
-        
     - name: 📤 Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
@@ -181,47 +171,3 @@ jobs:
           target/deploy/
           target/idl/
           
-  deploy-devnet:
-    name: 🚀 Deploy to Devnet
-    runs-on: ubuntu-latest
-    needs: [build]
-    if: github.ref == 'refs/heads/main'
-    environment: devnet
-    
-    steps:
-    - name: 📥 Checkout code
-      uses: actions/checkout@v4
-      
-    - name: 📥 Download build artifacts
-      uses: actions/download-artifact@v3
-      with:
-        name: build-artifacts
-        
-    - name: ☀️ Install Solana CLI
-      run: |
-        for i in {1..3}; do
-          sh -c "$(curl -sSfL --retry 3 https://release.solana.com/v${{ env.SOLANA_VERSION }}/install)" && break
-          echo "Retry $i failed, waiting..."
-          sleep 5
-        done
-        echo "$HOME/.local/share/solana/install/active_release/bin" >> $GITHUB_PATH
-        
-    - name: 🔑 Setup deployment key
-      run: |
-        echo "${{ secrets.DEVNET_DEPLOY_KEY }}" > deploy-keypair.json
-        solana config set --keypair deploy-keypair.json
-        solana config set --url devnet
-        
-    - name: 🚀 Deploy to devnet
-      run: |
-        chmod +x deployment/deploy.sh
-        ./deployment/deploy.sh devnet
-        
-    - name: ✅ Validate deployment
-      run: |
-        node deployment/validate-deployment.js
-        
-    - name: 🧹 Cleanup
-      if: always()
-      run: |
-        rm -f deploy-keypair.json

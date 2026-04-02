@@ -190,7 +190,7 @@ impl CreatorDistribution {
     pub fn validate_creator_payout_params(
         policy_config: &PolicyConfig,
         _distribution_progress: &DistributionProgress,
-        claimed_quote_amount: u64,
+        _claimed_quote_amount: u64,
     ) -> Result<()> {
         // Validate policy configuration
         policy_config.validate()?;

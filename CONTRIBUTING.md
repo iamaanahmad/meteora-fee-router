@@ -6,10 +6,10 @@ Thank you for your interest in contributing! This document provides guidelines f
 
 ### Prerequisites
 
-- **Rust**: 1.75.0+ (install via [rustup](https://rustup.rs/))
+- **Rust**: 1.83.0+ (install via [rustup](https://rustup.rs/))
 - **Node.js**: 18.17.0+ (use [nvm](https://github.com/nvm-sh/nvm))
-- **Solana CLI**: 1.16.0+
-- **Anchor**: 0.29.0
+- **Solana CLI**: 2.2.3+ (or 3.0.x)
+- **Anchor**: 0.32.1
 
 ### Setup Development Environment
 
@@ -24,8 +24,8 @@ npm install
 # Build the project
 anchor build
 
-# Run tests (should see 295 tests pass)
-npm run test:all
+# Run Rust unit tests
+cargo test --manifest-path programs/meteora-fee-router/Cargo.toml
 ```
 
 ## How to Contribute
@@ -59,7 +59,7 @@ See [SECURITY.md](./SECURITY.md) for responsible disclosure.
 
 3. **Test thoroughly** - All tests must pass
    ```bash
-   npm run test:all
+   cargo test --manifest-path programs/meteora-fee-router/Cargo.toml
    npm run lint
    npm run format:check
    ```
@@ -89,7 +89,7 @@ See [SECURITY.md](./SECURITY.md) for responsible disclosure.
 ### Testing
 
 - All changes require tests
-- Run full test suite before PR: `npm run test:all`
+- Run Rust tests before PR: `cargo test --manifest-path programs/meteora-fee-router/Cargo.toml`
 - Add integration tests in `tests/` directory
 - Aim for 100% code coverage
 

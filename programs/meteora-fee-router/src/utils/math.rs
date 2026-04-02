@@ -197,7 +197,7 @@ pub fn calculate_dust_payout(
 
 /// Validate distribution parameters
 pub fn validate_distribution_params(
-    claimed_quote: u64,
+    _claimed_quote: u64,
     y0_total: u64,
     investor_fee_share_bps: u16,
     min_payout: u64,

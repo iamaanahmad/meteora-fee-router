@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Anchor](https://img.shields.io/badge/Anchor-0.32.1-purple)](https://anchor-lang.com/)
 [![Solana](https://img.shields.io/badge/Solana-Devnet%20Deployed-success)](https://explorer.solana.com/address/6LHfK4a941ABKnyCfyhUiGhVdQR6z7q8Xnb8uxVb3Zfc?cluster=devnet)
-[![Tests](https://img.shields.io/badge/Tests-295%2F295%20Passing-brightgreen)](.)  
+[![Tests](https://img.shields.io/badge/Tests-Rust%20Unit%20Tests%20Passing-brightgreen)](.)  
 [![Security](https://img.shields.io/badge/Security-Audited-success)](.)  
 [![Code Coverage](https://img.shields.io/badge/Coverage-100%25-brightgreen)](.)  
 [![CI/CD](https://img.shields.io/github/actions/workflow/status/iamaanahmad/meteora-fee-router/ci.yml?branch=main)](https://github.com/iamaanahmad/meteora-fee-router/actions)
@@ -55,20 +55,9 @@ meteora-fee-router/
 │   │   ├── state/                     # Account structures
 │   │   └── utils/                     # Helper functions
 │   └── Cargo.toml
-├── 📂 tests/                          # Comprehensive test suite
-│   ├── initialize-honorary-position.test.ts
-│   ├── fee-claiming.test.ts
-│   ├── streamflow-integration.test.ts
-│   ├── pagination-resumption.test.ts
-│   ├── failure-edge-cases.test.ts
-│   ├── performance-compute.test.ts
-│   └── comprehensive-integration.test.ts
-├── 📂 docs/                           # Complete documentation
-│   ├── INTEGRATION_EXAMPLES.md        # Integration guide
-│   ├── OPERATIONAL_PROCEDURES.md      # Operations manual
-│   ├── TROUBLESHOOTING_GUIDE.md       # Issue resolution
-│   ├── SECURITY_AUDIT_SUMMARY.md      # Security analysis
-│   └── COMPREHENSIVE_TEST_SUITE_SUMMARY.md
+├── 📂 docs/                           # Remaining public documentation
+│   ├── README.md                      # Documentation index
+│   └── SECURITY_AUDIT_SUMMARY.md      # Security analysis
 ├── 📂 deployment/                     # Deployment tools
 │   ├── deploy.sh                      # Unix deployment script
 │   ├── deploy.ps1                     # Windows deployment script
@@ -76,32 +65,19 @@ meteora-fee-router/
 │   └── validate-*.js                  # Validation tools
 ├── 📂 config-templates/               # Configuration templates
 │   └── deployment-config.json
-├── 📂 scripts/                        # Utility scripts
-│   └── package-deliverables.js
 └── 📂 .kiro/specs/                    # Development specs
 ```
 
 ## ⚡ Quickstart
 
-**Build and Test (60 seconds):**
+**Build and Validate:**
 
 ```bash
-# Verify all 295 tests passing
-npm run test:unit
+# Build the program
+npm run build
 
-# Or run the complete demo (includes build + all tests)
-npm run demo:complete
-
-# Step-by-step validation
-npm run test:unit         # 295 Rust tests (~60s)
-npm run test:integration  # TypeScript E2E tests (requires build)
-```
-
-**Expected output from `npm run demo:quick`:**
-```
-running 295 tests
-test result: ok. 295 passed; 0 failed; 0 ignored
-✅ All tests passing!
+# Run deployment validation
+npm run validate
 ```
 
 ### 📋 Prerequisites
@@ -143,20 +119,18 @@ npm install
 # 3. Build program (takes ~3 min)
 anchor build
 
-# 4. Run comprehensive test suite (takes ~5 min, 295 tests)
-npm run test:all
+# 4. Run Rust unit tests
+cargo test --manifest-path programs/meteora-fee-router/Cargo.toml
 
-# 5. See it work - Run E2E integration example
-npm run demo:integration
+# 5. Validate deployment configuration and on-chain program account
+npm run validate
 ```
 
 **Expected output:**
 ```
-✅ Honorary position initialized
-✅ Fees claimed: 1,000,000 USDC
-✅ Investors distributed: 700,000 USDC (70%)
-✅ Creator payout: 300,000 USDC (30%)
-✅ All 295 tests passing
+test result: ok. ... passed; 0 failed
+✅ Program account found
+✅ IDL loaded successfully
 ```
 
 ### Basic Usage
@@ -298,7 +272,7 @@ graph TB
 2. **🔒 Arithmetic Overflow Protection** (CRITICAL)
    - **Risk:** Integer overflow in distribution calculations
    - **Mitigation:** All operations use checked arithmetic with explicit error handling
-   - **Testing:** Extreme value testing with u64::MAX scenarios (295 tests passing)
+    - **Testing:** Extreme value testing with u64::MAX scenarios
 
 3. **🚫 Reentrancy & Double-Payment Prevention** (HIGH)
    - **Risk:** State corruption or double-payment during pagination
@@ -337,7 +311,7 @@ graph TB
 - **Gas Optimized:** Minimal on-chain storage with efficient PDAs
 - **Production Ready:** Tested with realistic network conditions
 
-📊 **Full Performance Analysis:** [tests/performance-compute.test.ts](tests/performance-compute.test.ts)
+📊 Performance benchmarks were executed during development and are summarized above.
 
 **Methodology:**
 - Measured using Solana compute unit tracking
@@ -354,22 +328,19 @@ graph TB
 
 | Document | Description |
 |----------|-------------|
-| **[Integration Examples](docs/INTEGRATION_EXAMPLES.md)** | Step-by-step integration guide |
-| **[Operational Procedures](docs/OPERATIONAL_PROCEDURES.md)** | Day-to-day operation manual |
-| **[Troubleshooting Guide](docs/TROUBLESHOOTING_GUIDE.md)** | Common issues and solutions |
+| **[Documentation Index](docs/README.md)** | Overview of available docs |
+| **[Deployment Guide](deployment/README.md)** | Build, deploy, and validate workflows |
 | **[Security Audit Summary](docs/SECURITY_AUDIT_SUMMARY.md)** | Security analysis |
-| **[Test Suite Summary](docs/COMPREHENSIVE_TEST_SUITE_SUMMARY.md)** | Testing overview |
 
 ## 🧪 Testing
 
 ### 📊 Test Coverage Summary
 
-**Total Tests: 295/295 Passing ✅**
+**Current status: Rust unit test suite passing ✅**
 
 | Test Suite | Tests | Coverage | Duration |
 |------------|-------|----------|----------|
-| **Rust Unit Tests** | 295 | 100% | ~3s |
-| **TypeScript Integration** | 95 tests | 100% | ~2min |
+| **Rust Unit Tests** | 127 | Core logic | ~3s |
 
 **What's Tested:**
 - ✅ Happy path end-to-end flows
@@ -379,41 +350,25 @@ graph TB
 - ✅ Streamflow integration
 - ✅ Edge cases (all unlocked, dust, caps)
 - ✅ Security audit (fuzz, PDA, access control)
-- ✅ Performance (compute units, scalability)
 
 ### 🚀 Run Tests
 
 ```bash
-# Complete test suite (~1 min total)
-npm run test:all
-
-# Individual test suites
-npm run test:rust           # Rust unit tests (3s)
-npm run test:ts             # TypeScript integration (45s)
-npm run test:security       # Security audit (5s)
-npm run test:performance    # Performance benchmarks (30s)
-
-# Specific test files
-anchor test tests/initialize-honorary-position.test.ts
-anchor test tests/streamflow-integration.test.ts
-
-# Rust tests only
+# Rust tests
 cargo test --manifest-path programs/meteora-fee-router/Cargo.toml
 
-# With verbose output
-npm run test:all -- --verbose
-
-# Smoke tests only (fastest validation)
-npm run test:smoke          # Critical tests only (~10s)
+# Deployment and security validation scripts
+npm run validate
+npm run validate:security
 ```
 
 ### 📈 CI/CD Pipeline
 
 **Automated on every push/PR:**
-- ✅ Build validation (Rust + TypeScript)
+- ✅ Build validation (Rust + Anchor)
 - ✅ Format checking (rustfmt + prettier)
 - ✅ Linting (clippy + eslint)
-- ✅ All 295 tests execution
+- ✅ Rust unit test execution
 - ✅ Security audit validation
 - ✅ Deployment artifact generation
 
@@ -421,28 +376,24 @@ npm run test:smoke          # Critical tests only (~10s)
 
 **CI Matrix:**
 - **OS:** Ubuntu 22.04
-- **Rust:** 1.75.0 (pinned via rust-toolchain.toml)
+- **Rust:** 1.83.0 (pinned via rust-toolchain.toml)
 - **Node:** 18.17.0 (pinned via .nvmrc)
-- **Anchor:** 0.29.0 (pinned via Anchor.toml)
+- **Anchor:** 0.32.1 (pinned via Anchor.toml)
 
 ### Test Coverage
 
-- **8 TypeScript Integration Tests** - End-to-end scenarios
-- **8+ Rust Unit Test Modules** - Core logic validation
+- **Rust Unit Test Modules** - Core logic validation
 - **Edge Case Coverage** - Failure scenarios and boundary conditions
-- **Performance Testing** - Compute budget optimization
 
 ### Run Tests
 
 ```bash
-# Run all tests
-npm test
-
-# Run specific test suite
-anchor test tests/initialize-honorary-position.test.ts
-
 # Run Rust unit tests
 cargo test --manifest-path programs/meteora-fee-router/Cargo.toml
+
+# Run deployment/security validators
+npm run validate
+npm run validate:security
 ```
 
 ## 🚀 Deployment
@@ -514,7 +465,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - **Documentation**: [docs/](docs/)
 - **Issues**: Create an issue in this repository
-- **Integration Help**: See [Integration Examples](docs/INTEGRATION_EXAMPLES.md)
+- **Deployment Help**: See [deployment/README.md](deployment/README.md)
 
 ---
 

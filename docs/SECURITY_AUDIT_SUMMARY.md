@@ -49,9 +49,9 @@ Created a comprehensive security audit module with the following components:
 - **Input Validation Fuzzing**: Tests input validation with edge cases
 - **Invariant Verification**: Validates mathematical invariants hold under all conditions
 
-### 2. Security Test Suite (`tests/security-audit.test.ts`)
+### 2. Security Validation Coverage
 
-Comprehensive TypeScript test suite covering:
+Security validation coverage includes:
 
 #### PDA Security Tests
 - Deterministic PDA derivation verification
@@ -81,6 +81,8 @@ Comprehensive TypeScript test suite covering:
 - Dust accumulation handling
 - Basis points calculations
 - Edge case scenarios
+
+The standalone TypeScript security suite was removed in the cleaned production tree. Security validations are now represented by Rust tests plus the deployment security validator script.
 
 ### 3. Security Validation Script (`validate-security.js`)
 

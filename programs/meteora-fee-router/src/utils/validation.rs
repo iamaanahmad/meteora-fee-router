@@ -192,7 +192,7 @@ pub fn validate_claimed_fees_quote_only(
 
 /// Helper function to extract pool validation data from account info
 /// This would be used to deserialize DAMM V2 pool account data
-pub fn extract_pool_validation_data(pool_account: &AccountInfo) -> Result<PoolValidationData> {
+pub fn extract_pool_validation_data(_pool_account: &AccountInfo) -> Result<PoolValidationData> {
     // This is a placeholder implementation
     // In the actual implementation, this would deserialize the DAMM V2 pool account
     // and extract the necessary fields for validation
@@ -207,7 +207,7 @@ pub fn extract_pool_validation_data(pool_account: &AccountInfo) -> Result<PoolVa
 
 /// Helper function to extract position validation data from account info
 /// This would be used to deserialize DAMM V2 position account data
-pub fn extract_position_validation_data(position_account: &AccountInfo) -> Result<PositionValidationData> {
+pub fn extract_position_validation_data(_position_account: &AccountInfo) -> Result<PositionValidationData> {
     // This is a placeholder implementation
     // In the actual implementation, this would deserialize the DAMM V2 position account
     // and extract the necessary fields for validation

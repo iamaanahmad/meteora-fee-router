@@ -15,31 +15,15 @@
   "scripts": {
     "build": "anchor build",
     "test": "anchor test",
-    "test:unit": "cargo test --manifest-path programs/meteora-fee-router/Cargo.toml",
-    "test:rust": "cargo test --manifest-path programs/meteora-fee-router/Cargo.toml",
-    "test:ts": "anchor test tests/",
-    "test:integration": "anchor test tests/",
-    "test:all": "npm run test:unit && npm run test:integration",
-    "test:quick": "cargo test --manifest-path programs/meteora-fee-router/Cargo.toml",
-    "test:security": "anchor test tests/security-audit.test.ts",
-    "test:performance": "anchor test tests/performance-compute.test.ts",
-    "test:smoke": "anchor test tests/comprehensive-integration.test.ts",
-    "demo:complete": "node scripts/demo-complete.js",
-    "demo:quick": "npm run test:quick",
-    "demo:integration": "anchor test tests/comprehensive-integration.test.ts",
-    "quickstart": "npm run build && npm run test:all",
     "deploy:devnet": "./deployment/deploy.sh devnet",
     "deploy:mainnet": "./deployment/deploy.sh mainnet-beta",
     "validate": "node deployment/validate-deployment.js",
     "validate:security": "node deployment/validate-security.js",
-    "validate:tests": "node deployment/validate-tests.js",
     "optimize": "./deployment/optimize-build.sh",
     "clean": "anchor clean && rm -rf node_modules target",
     "lint": "eslint . --ext .ts,.js",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "docs": "typedoc --out docs/api src/",
-    "package": "node scripts/package-deliverables.js",
     "publish:npm": "npm publish --access public"
   },
   "keywords": [
@@ -70,7 +54,7 @@
     "npm": ">=8.0.0"
   },
   "dependencies": {
-    "@coral-xyz/anchor": "^0.29.0",
+    "@coral-xyz/anchor": "^0.32.1",
     "@solana/web3.js": "^1.87.6",
     "@solana/spl-token": "^0.3.9",
     "bn.js": "^5.2.1"
@@ -92,6 +76,6 @@
     "typescript": "^4.9.0"
   },
   "peerDependencies": {
-    "@coral-xyz/anchor": "^0.29.0"
+    "@coral-xyz/anchor": "^0.32.1"
   }
 }

@@ -66,5 +66,5 @@ If you see "ELF error" - use SBF compilation instead of regular Rust compilation
 
 If anchor command not found - reinstall with:
 ```bash
-npm install -g @coral-xyz/anchor-cli@0.29.0
+npm install -g @coral-xyz/anchor-cli@0.32.1
 ```

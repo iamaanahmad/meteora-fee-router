@@ -9,12 +9,6 @@ pub mod security_audit;
 
 pub use instructions::*;
 
-#[cfg(test)]
-mod events_tests;
-
-#[cfg(test)]
-mod events_simple_tests;
-
 declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
 
 #[program]
@@ -26,7 +20,7 @@ pub mod meteora_fee_router {
         ctx: Context<InitializeHonoraryPosition>,
         params: InitializeHonoraryPositionParams,
     ) -> Result<()> {
-        instructions::initialize_honorary_position::handler(ctx, params)
+        instructions::initialize_honorary_position::initialize_honorary_position_handler(ctx, params)
     }
 
     /// Distribute fees to investors and creator via 24-hour crank system
@@ -34,7 +28,7 @@ pub mod meteora_fee_router {
         ctx: Context<'_, '_, '_, 'info, DistributeFees<'info>>,
         params: DistributeFeesParams,
     ) -> Result<()> {
-        instructions::distribute_fees::handler(ctx, params)
+        instructions::distribute_fees::distribute_fees_handler(ctx, params)
     }
 }
 

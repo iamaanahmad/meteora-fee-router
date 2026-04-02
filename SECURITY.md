@@ -61,12 +61,13 @@ Please include:
 
 The program has been reviewed for common Solana vulnerabilities:
 - See [docs/SECURITY_AUDIT_SUMMARY.md](./docs/SECURITY_AUDIT_SUMMARY.md) for details
+- See [docs/README.md](./docs/README.md) for the remaining documentation index
 
 ## Questions?
 
-- Check [docs/TROUBLESHOOTING_GUIDE.md](./docs/TROUBLESHOOTING_GUIDE.md)
+- Check [docs/README.md](./docs/README.md)
 - Open a GitHub Discussion
-- Review [docs/OPERATIONAL_PROCEDURES.md](./docs/OPERATIONAL_PROCEDURES.md)
+- Review [deployment/README.md](./deployment/README.md)
 
 ---
 

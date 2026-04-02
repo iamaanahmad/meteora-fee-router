@@ -50,9 +50,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Permissionless 24-hour distribution crank system
 - Streamflow vesting integration for dynamic distribution
 - Pagination support for scalable investor payouts
-- Comprehensive test suite (295 tests)
+- Comprehensive test suite
 - Security audit completed
-- Complete documentation (integration, operations, security, troubleshooting)
+- Complete documentation and deployment guides
 - NPM package published (`@ashqking/meteora-fee-router`)
 - GitHub Actions CI/CD pipeline
 - Solana devnet deployment ready
@@ -68,18 +68,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Testing
 
-- Unit tests: 295 passing tests with 100% coverage
-- Integration tests: 7 comprehensive test suites
+- Unit tests: comprehensive Rust test coverage
+- Integration tests: end-to-end validation coverage
 - Performance tests: Compute optimization benchmarks
 - Security tests: Vulnerability and edge case testing
 
 ### Documentation
 
-- Integration guide with code examples
-- Operational procedures for deployment and maintenance
-- Troubleshooting guide for common issues
+- Main README with setup and architecture examples
+- Deployment guide for build and release workflows
+- Troubleshooting references for common issues
 - Security audit summary and recommendations
-- Business strategy and growth roadmap
 
 ### Infrastructure
 
@@ -96,8 +95,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 **Deployment Information:**
 - **Network**: Solana Devnet
-- **Anchor Version**: 0.29.0
-- **Rust Version**: 1.75.0+
+- **Anchor Version**: 0.32.1
+- **Rust Version**: 1.83.0+
 - **Node Version**: 18.17.0+
 - **Status**: ✅ Production-ready
 
@@ -105,7 +104,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ```bash
 npm install @ashqking/meteora-fee-router
 npm run build
-npm run test:all
+cargo test --manifest-path programs/meteora-fee-router/Cargo.toml
 npm run deploy:devnet
 ```
 

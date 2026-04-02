@@ -25,9 +25,9 @@ If applicable, add screenshots to help explain your problem.
 ## 🖥️ Environment
 - OS: [e.g. macOS, Ubuntu, Windows]
 - Solana CLI Version: [e.g. 1.16.25]
-- Anchor Version: [e.g. 0.29.0]
+- Anchor Version: [e.g. 0.32.1]
 - Node.js Version: [e.g. 18.17.0]
-- Rust Version: [e.g. 1.70.0]
+- Rust Version: [e.g. 1.83.0]
 
 ## 📋 Additional Context
 Add any other context about the problem here.

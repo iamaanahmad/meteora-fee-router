@@ -99,7 +99,7 @@ pub fn claim_position_fees<'info>(
         bump,
         cp_amm_program,
         token_program,
-    ).map_err(|e| {
+    ).map_err(|_e| {
         msg!("Fee claiming CPI failed for position: {}", position_account.key());
         ErrorCode::FeeClaimingFailed
     })?;
@@ -169,7 +169,7 @@ pub fn validate_quote_only_fees(
 /// Extracts fee data from DAMM V2 position account
 /// This is a mock implementation - in production this would deserialize
 /// the actual DAMM V2 position account structure
-fn extract_position_fee_data(position_account: &AccountInfo) -> Result<PositionFeeData> {
+fn extract_position_fee_data(_position_account: &AccountInfo) -> Result<PositionFeeData> {
     // Mock implementation for testing
     // In production, this would deserialize the DAMM V2 position account
     // and extract fee_owed_a, fee_owed_b, token_mint_a, token_mint_b
@@ -302,7 +302,7 @@ pub fn create_treasury_ata_if_needed<'info>(
     system_program: &Program<'info, System>,
     token_program: &Program<'info, Token>,
     associated_token_program: &Program<'info, AssociatedToken>,
-    rent: &Sysvar<'info, Rent>,
+    _rent: &Sysvar<'info, Rent>,
 ) -> Result<()> {
     // Check if treasury ATA already exists
     if treasury_ata.data_is_empty() {

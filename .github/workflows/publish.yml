@@ -35,7 +35,7 @@ jobs:
         run: npm run build 2>/dev/null || true
 
       - name: Verify tests pass
-        run: npm run test:quick 2>/dev/null || true
+        run: cargo test --manifest-path programs/meteora-fee-router/Cargo.toml
 
       - name: Get version from release
         if: github.event_name == 'release'

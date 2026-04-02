@@ -12,8 +12,6 @@ This directory contains all deployment-related scripts and tools for the Meteora
 
 - **[validate-deployment.js](validate-deployment.js)** - Deployment validation
 - **[validate-security.js](validate-security.js)** - Security validation
-- **[validate-tests.js](validate-tests.js)** - Test suite validation
-- **[final-validation.js](final-validation.js)** - Comprehensive validation
 
 ## Configuration
 
@@ -24,11 +22,11 @@ This directory contains all deployment-related scripts and tools for the Meteora
 1. **Build Optimization**: `./optimize-build.sh`
 2. **Deploy to Devnet**: `./deploy.sh devnet`
 3. **Validate Deployment**: `node validate-deployment.js`
-4. **Final Validation**: `node final-validation.js`
+4. **Security Validation**: `node validate-security.js`
 
 ## Requirements
 
-- Node.js 16+
+- Node.js 18.17.0+
 - Anchor CLI
 - Solana CLI
 - Rust toolchain

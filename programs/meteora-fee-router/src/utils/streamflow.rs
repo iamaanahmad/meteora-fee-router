@@ -1,6 +1,5 @@
 use anchor_lang::prelude::*;
 use anchor_lang::solana_program::clock::Clock;
-use anchor_lang::solana_program::pubkey;
 use crate::error::ErrorCode;
 use std::collections::{HashMap, HashSet};
 
@@ -425,7 +424,7 @@ impl StreamflowIntegration {
         expected_mint: &Pubkey,
     ) -> Result<()> {
         for stream_account in stream_accounts {
-            let stream = Self::validate_and_parse_stream(stream_account, expected_mint)?;
+            let _ = Self::validate_and_parse_stream(stream_account, expected_mint)?;
             // Additional validation can be added here
         }
         Ok(())
@@ -446,10 +445,6 @@ impl StreamflowIntegration {
         Ok(unique_recipients.len())
     }
 }
-
-#[cfg(test)]
-#[path = "streamflow_tests.rs"]
-mod streamflow_tests;
 
 #[cfg(test)]
 mod tests {

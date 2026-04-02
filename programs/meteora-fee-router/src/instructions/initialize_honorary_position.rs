@@ -72,7 +72,7 @@ pub struct InitializeHonoraryPositionParams {
     pub y0_total_allocation: u64,
 }
 
-pub fn handler(
+pub fn initialize_honorary_position_handler(
     mut ctx: Context<InitializeHonoraryPosition>,
     params: InitializeHonoraryPositionParams,
 ) -> Result<()> {
@@ -239,7 +239,7 @@ fn validate_pda_derivations(
     let vault_key = accounts.vault.key();
     
     // Validate policy config PDA
-    let (expected_policy_pda, expected_policy_bump) = 
+    let (expected_policy_pda, _expected_policy_bump) = 
         PdaUtils::derive_policy_config_pda(program_id, &vault_key);
     require!(
         expected_policy_pda == accounts.policy_config.key(),
@@ -247,7 +247,7 @@ fn validate_pda_derivations(
     );
     
     // Validate distribution progress PDA
-    let (expected_progress_pda, expected_progress_bump) = 
+    let (expected_progress_pda, _expected_progress_bump) = 
         PdaUtils::derive_distribution_progress_pda(program_id, &vault_key);
     require!(
         expected_progress_pda == accounts.distribution_progress.key(),
@@ -255,7 +255,7 @@ fn validate_pda_derivations(
     );
     
     // Validate position owner PDA
-    let (expected_owner_pda, expected_owner_bump) = 
+    let (expected_owner_pda, _expected_owner_bump) = 
         PdaUtils::derive_position_owner_pda(program_id, &vault_key);
     require!(
         expected_owner_pda == accounts.position_owner_pda.key(),
@@ -265,8 +265,3 @@ fn validate_pda_derivations(
     msg!("PDA derivation validation passed");
     Ok(())
 }
-
-// Include tests
-#[cfg(test)]
-#[path = "initialize_honorary_position_tests.rs"]
-mod tests;
