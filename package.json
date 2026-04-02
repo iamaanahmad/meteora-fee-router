@@ -50,8 +50,8 @@
   },
   "homepage": "https://github.com/iamaanahmad/meteora-fee-router#readme",
   "engines": {
-    "node": ">=16.0.0",
-    "npm": ">=8.0.0"
+    "node": ">=20.18.0",
+    "npm": ">=10.0.0"
   },
   "dependencies": {
     "@coral-xyz/anchor": "^0.32.1",
