@@ -53,7 +53,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Comprehensive test suite
 - Security audit completed
 - Complete documentation and deployment guides
-- NPM package published (`@ashqking/meteora-fee-router`)
+- NPM package published (`meteora-fee-router`)
 - GitHub Actions CI/CD pipeline
 - Solana devnet deployment ready
 
@@ -102,7 +102,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 **Quick Start:**
 ```bash
-npm install @ashqking/meteora-fee-router
+npm install meteora-fee-router
 npm run build
 cargo test --manifest-path programs/meteora-fee-router/Cargo.toml
 npm run deploy:devnet

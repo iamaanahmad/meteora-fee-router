@@ -121,7 +121,7 @@ jobs:
         # Create package.json for NPM
         cat > npm-package/package.json << 'EOF'
         {
-          "name": "@ashqking/meteora-fee-router",
+          "name": "meteora-fee-router",
           "version": "${{ github.ref_name }}",
           "description": "Production-grade Solana program for automated fee distribution with quote-only accrual",
           "main": "types/meteora_fee_router.ts",

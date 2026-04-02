@@ -1,5 +1,5 @@
 {
-  "name": "@ashqking/meteora-fee-router",
+  "name": "meteora-fee-router",
   "version": "1.1.0",
   "description": "Production-grade Solana program for automated fee distribution with quote-only accrual - DEPLOYED TO DEVNET",
   "main": "README.md",
@@ -24,7 +24,7 @@
     "lint": "eslint . --ext .ts,.js",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "publish:npm": "npm publish --access public"
+    "publish:npm": "npm publish"
   },
   "keywords": [
     "solana",
