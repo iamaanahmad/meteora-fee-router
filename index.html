@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meteora Fee Router</title>
+  <meta name="description" content="Meteora Fee Router: automated quote-only fee distribution on Solana with Streamflow-aware investor payouts." />
+  <style>
+    :root {
+      --bg: #f6f4ef;
+      --surface: #fffdf8;
+      --ink: #1d1c1a;
+      --muted: #5b564d;
+      --brand: #10684f;
+      --brand-2: #c84a2f;
+      --line: #ddd5c9;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Trebuchet MS", Tahoma, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 90% 10%, #f7c88a 0 120px, transparent 140px),
+        radial-gradient(circle at 10% 90%, #cde9dc 0 140px, transparent 170px),
+        var(--bg);
+      line-height: 1.6;
+    }
+
+    .container {
+      width: min(1024px, 92%);
+      margin: 0 auto;
+      padding: 2rem 0 4rem;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #fff8eb, #f6fff9);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    h1, h2, h3 {
+      margin-top: 0;
+      line-height: 1.2;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      letter-spacing: 0.5px;
+    }
+
+    h2 {
+      margin-top: 2rem;
+      font-size: clamp(1.3rem, 3vw, 1.8rem);
+      border-bottom: 2px solid var(--line);
+      padding-bottom: 0.4rem;
+    }
+
+    p, li {
+      color: var(--muted);
+    }
+
+    .badges {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      margin: 1rem 0 1.5rem;
+    }
+
+    .badge {
+      font-size: 0.85rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0.35rem 0.7rem;
+      background: var(--surface);
+      color: var(--ink);
+    }
+
+    .cta {
+      display: inline-block;
+      background: var(--brand);
+      color: #fff;
+      text-decoration: none;
+      padding: 0.7rem 1rem;
+      border-radius: 10px;
+      font-weight: 600;
+      margin-right: 0.6rem;
+      margin-top: 0.5rem;
+    }
+
+    .cta.alt {
+      background: var(--brand-2);
+    }
+
+    .grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      margin-top: 1rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 1rem;
+    }
+
+    pre {
+      margin: 0;
+      white-space: pre-wrap;
+      word-break: break-word;
+      background: #1f1f1f;
+      color: #f4f4f4;
+      border-radius: 10px;
+      border: 1px solid #333;
+      padding: 1rem;
+      overflow: auto;
+    }
+
+    code {
+      font-family: Consolas, Menlo, Monaco, monospace;
+    }
+
+    .section {
+      margin-top: 1.5rem;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 1.2rem;
+    }
+
+    footer {
+      margin-top: 2rem;
+      color: #776f64;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <section class="hero">
+      <h1>Meteora Fee Router</h1>
+      <p>
+        A Solana Anchor program for automated fee distribution with quote-only accrual,
+        Streamflow-aware investor payouts, and creator remainder settlement.
+      </p>
+      <div class="badges">
+        <span class="badge">Solana</span>
+        <span class="badge">Anchor 0.32.1</span>
+        <span class="badge">Devnet Deployed</span>
+        <span class="badge">Rust Unit Tests Passing</span>
+      </div>
+      <a class="cta" href="https://github.com/iamaanahmad/meteora-fee-router" target="_blank" rel="noopener noreferrer">View Repository</a>
+      <a class="cta alt" href="https://www.npmjs.com/package/meteora-fee-router" target="_blank" rel="noopener noreferrer">NPM Package</a>
+    </section>
+
+    <section class="section">
+      <h2>What It Does</h2>
+      <div class="grid">
+        <article class="card">
+          <h3>Quote-Only Fee Collection</h3>
+          <p>Uses an honorary LP position flow for quote-token fee accrual and validation.</p>
+        </article>
+        <article class="card">
+          <h3>Streamflow Integration</h3>
+          <p>Reads vesting lock state so investor payout weight follows still-locked allocation.</p>
+        </article>
+        <article class="card">
+          <h3>24-Hour Crank</h3>
+          <p>Permissionless daily distribution with cursor-based pagination and safe retries.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Install and Use</h2>
+      <pre><code>npm i meteora-fee-router</code></pre>
+      <p>Typical local development flow:</p>
+      <pre><code>npm install
+anchor build
+cargo test --manifest-path programs/meteora-fee-router/Cargo.toml
+npm run validate</code></pre>
+    </section>
+
+    <section class="section">
+      <h2>Deploy This Page with GitHub Pages</h2>
+      <ol>
+        <li>Push this <code>index.html</code> to your default branch (usually <code>main</code>).</li>
+        <li>Open GitHub repository settings.</li>
+        <li>Go to <strong>Pages</strong>.</li>
+        <li>Under <strong>Build and deployment</strong>, choose <strong>Deploy from a branch</strong>.</li>
+        <li>Select branch <code>main</code> and folder <code>/(root)</code>, then save.</li>
+        <li>Wait 1-2 minutes and open the generated site URL.</li>
+      </ol>
+      <p>If your repository is named <code>meteora-fee-router</code>, the URL is usually:</p>
+      <pre><code>https://&lt;your-github-username&gt;.github.io/meteora-fee-router/</code></pre>
+    </section>
+
+    <footer>
+      Built for practical DeFi fee routing: secure, auditable, and ready for production hardening.
+    </footer>
+  </main>
+</body>
+</html>
